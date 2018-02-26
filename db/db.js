@@ -9,8 +9,8 @@ module.exports = ()=>{
 	let ObjectId = mongoose.Schema.Types.ObjectId;
 	let db = mongoose.connect(settings.dbUrl);
 
-	// db.on('error',console.error.bind(console,'连接错误:'));
-	// db.once('open',console.error.bind(console,'打开连接:'));
+	db.on('error',console.error.bind(console,'连接错误:'));
+	db.once('open',console.error.bind(console,'打开连接:'));
 
 	// 系统用户表
 	let userSchema = new mongoose.Schema({
@@ -91,6 +91,7 @@ module.exports = ()=>{
 	let medicineSchema = new mongoose.Schema({
 		name:{type:String,required:true},				/*药物名称*/
 		isOTC:{type:Boolean,required:true},				/*处方药 是否是OTC类药物 true可随意购买，false需医师指导购买*/
+		price:{type:Number,required:false},				/*处方药价格*/
 		desc:{type:String,required:false},				/*药物描述*/
 		createTime:{type:Date,default: Date.now},		/*创建时间*/
 		updateTime:{type:Date,default: Date.now}		/*修改时间*/
