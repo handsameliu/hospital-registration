@@ -9,7 +9,7 @@ import MedicineManager from '@/components/MedicineManager'
 import TestManager from '@/components/TestManager'
 import ModuleManager from '@/components/ModuleManager'
 import RegisterOperation from '@/components/RegisterOperation'
-import UnSubscribeOperation from '@/components/UnSubscribeOperation'
+import RegisterListOperation from '@/components/RegisterListOperation'
 import ReceptionOperation from '@/components/ReceptionOperation'
 import TestOperation from '@/components/TestOperation'
 import ChargeOperation from '@/components/ChargeOperation'
@@ -56,9 +56,9 @@ export default new Router({
             name: 'RegisterOperation',
             component: RegisterOperation
         }, { // 退号
-            path: '/unsubscribeOperation',
-            name: 'UnSubscribeOperation',
-            component: UnSubscribeOperation
+            path: '/registerListOperation',
+            name: 'RegisterListOperation',
+            component: RegisterListOperation
         }, { // 接诊
             path: '/receptionOperation',
             name: 'ReceptionOperation',
