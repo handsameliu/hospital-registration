@@ -20,7 +20,7 @@
                         <el-submenu index="1" class="el-menu-text-left">
                             <template slot="title"><i class="el-icon-menu"></i><span>挂号</span></template>
                             <el-menu-item index="1-1" :route="{path:'/registerOperation'}">患者挂号</el-menu-item>
-                            <el-menu-item index="1-2" :route="{path:'/unsubscribeOperation'}">患者退号</el-menu-item>
+                            <el-menu-item index="1-2" :route="{path:'/registerListOperation'}">患者列表</el-menu-item>
                         </el-submenu>
                         <el-menu-item index="2" :route="{path:'/receptionOperation'}" class="el-menu-text-left"><i class="el-icon-menu"></i><span slot="title">医师接诊</span></el-menu-item>
                         <el-menu-item index="3" :route="{path:'/testOperation'}" class="el-menu-text-left"><i class="el-icon-menu"></i><span slot="title">体检项接诊</span></el-menu-item>
@@ -69,7 +69,7 @@
     }
     .opration-buttons-box{
         width: 100%;
-        padding: 15px 15px 0px 0;
+        padding: 15px 15px 0px 0px;
         /* text-align: right; */
         box-sizing: border-box;
     }

@@ -1,6 +1,7 @@
 'use strict';
 
 exports.signIn = (req,res,next)=>{
+	console.log('signIn----');
 	res.render('signIn',{title: '登陆'});
 };
 exports.signUp = (req,res,next)=>{
