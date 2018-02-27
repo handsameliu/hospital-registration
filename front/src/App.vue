@@ -5,7 +5,7 @@
                 <h1 style="float: left;">医院挂号系统</h1>
                 <div style="text-align: right;">
                     <el-dropdown trigger="click">
-                        <span class="el-dropdown-link" style="color: #fff;">
+                        <span class="el-dropdown-link" style="color: #409EFF;">
                             当前用户：王小虎<i class="el-icon-setting" style="margin: 0 15px"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
@@ -86,8 +86,8 @@
 <style scoped>
     .el-header, .el-footer {
         /* background-color: #B3C0D1; */
-        background-color: #409EFF;
-        color: #fff;
+        /* background-color: #409EFF; */
+        color: #409EFF;
         /* color: #333; */
         text-align: center;
         line-height: 60px;

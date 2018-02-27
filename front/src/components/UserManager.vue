@@ -6,19 +6,19 @@
         <div class="opration-buttons-box">
             <el-form :inline="true">
                 <el-form-item label="姓名">
-                    <el-input placeholder="姓名"></el-input>
+                    <el-input placeholder="姓名" v-model="searchForm.username"></el-input>
                 </el-form-item>
                 <el-form-item label="科室">
-                    <el-input placeholder="科室"></el-input>
+                    <el-input placeholder="科室" v-model="searchForm.department"></el-input>
                 </el-form-item>
                 <el-form-item label="状态">
-                    <el-select placeholder="状态">
+                    <el-select placeholder="状态" v-model="searchForm.title">
                         <el-option label="封禁" :value="-1"></el-option>
                         <el-option label="正常" :value="0"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" >查询</el-button>
+                    <el-button type="primary" :loading="searchLoading" @click="seachSubmit">查询</el-button>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="centerDialogVisible = true">新增用户</el-button>
@@ -42,12 +42,28 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination background layout="prev, pager, next" :total="1000" class="pagination-box"></el-pagination>
-        <el-dialog title="新增用户" :visible.sync="centerDialogVisible" width="60%" center>
-            <span>需要注意的是内容是默认不居中的</span>
+        <el-pagination background layout="prev, pager, next" :total="1000" class="pagination-box" @current-change="currentPageFn"></el-pagination>
+        <el-dialog title="新增用户" :visible.sync="centerDialogVisible" width="50%" center>
+            <el-form ref="form" :model="addForm" label-width="80px">
+                <el-form-item label="用户名称">
+                    <el-input v-model="addForm.username"></el-input>
+                </el-form-item>
+                <el-form-item label="科室">
+                    <el-select v-model="addForm.department" placeholder="请选择所在科室">
+                        <el-option label="妇科" value="shanghai"></el-option>
+                        <el-option label="耳鼻喉" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="职称">
+                    <el-select v-model="addForm.title" placeholder="请选择当前职称">
+                        <el-option label="主治医师" value="shanghai"></el-option>
+                        <el-option label="药师" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="centerDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+                <el-button @click="cancelAddSubmit">取 消</el-button>
+                <el-button type="primary" @click="addSubmit" :loading="addLoading">创 建</el-button>
             </span>
         </el-dialog>
     </div>
@@ -59,6 +75,18 @@ export default {
     data () {
         return {
             centerDialogVisible: false,
+            searchLoading: false,
+            addLoading: false,
+            searchForm: {
+                username: '',
+                department: '',
+                title: ''
+            },
+            addForm: {
+                username: '',
+                department: '',
+                title: ''
+            },
             tableData: [{
                 username: '王小虎',
                 department: '耳鼻喉',
@@ -144,6 +172,34 @@ export default {
                 status: '在职',
                 createTime: '2016-05-02'
             }]
+        }
+    },
+    methods: {
+        addSubmit () {
+            this.addLoading = true
+            console.log(this.addForm)
+            let that = this
+            setTimeout(function () {
+                that.addLoading = false
+                that.centerDialogVisible = false
+            }, 2000)
+        },
+        cancelAddSubmit () {
+            this.centerDialogVisible = false
+            this.addForm.username = ''
+            this.addForm.department = ''
+            this.addForm.title = ''
+        },
+        seachSubmit () {
+            this.searchLoading = true
+            console.log(this.searchForm)
+            let that = this
+            setTimeout(function () {
+                that.searchLoading = false
+            }, 2000)
+        },
+        currentPageFn (val) {
+            console.log(`当前页${val}`)
         }
     }
 }
