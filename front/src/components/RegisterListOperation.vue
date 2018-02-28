@@ -88,7 +88,7 @@
                 <el-form-item label="接诊日期">
                     <el-input v-model="addForm.visitDate" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="接诊阶段">
+                <el-form-item label="接诊时间">
                     <el-input v-model="addForm.visitDateStage" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="当前状态">
