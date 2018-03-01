@@ -3,11 +3,13 @@
 import Vue from 'vue'
 import Index from './Index.vue'
 import ElementUI from 'element-ui'
+import VCharts from 'v-charts'
 import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI, { size: 'small' })
+Vue.use(VCharts)
 
 /* eslint-disable no-new */
 new Vue({

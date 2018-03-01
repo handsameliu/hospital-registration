@@ -7,7 +7,7 @@ let articleService = db.Article;
 let commentService = db.Comment;
 
 /**
- * 登陆
+ * 系统用户登陆
  */
 exports.signIn = (req,res) => {
     let body = req.body;
@@ -30,7 +30,7 @@ exports.signIn = (req,res) => {
 };
 
 /**
- * 注册
+ * 新增系统用户
  */
 exports.signUp = (req,res) => {
     let body = req.body;
@@ -56,7 +56,7 @@ exports.signUp = (req,res) => {
 };
 
 /**
- * 退出
+ * 系统用户退出
  */
 exports.signOut = (req,res) => {
     req.session.user = null;  
@@ -64,7 +64,7 @@ exports.signOut = (req,res) => {
 };
 
 /**
- * 搜索
+ * 系统用户搜索
  */
 exports.searchUser = (req,res) => {
     let val = req.body.val;
@@ -76,7 +76,11 @@ exports.searchUser = (req,res) => {
         res.json(message(null,{error_code:0,message:'success',result:data}));
     });
 };
-
+/**
+ * 修改系统用户信息
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.updateUser = (req,res) => {
     let _id = req.body._id;
     let val = req.body.val;  
