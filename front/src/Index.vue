@@ -52,7 +52,7 @@
     }
 </script>
 
-<style src="../static/reset.css" ></style>
+<style src="../static/css/reset.css" ></style>
 
 <style>
     #app {
