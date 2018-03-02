@@ -3,8 +3,6 @@
 let {db} = require('../db');
 let {message} = require('../helper');
 let userService = db.User;
-let articleService = db.Article;
-let commentService = db.Comment;
 
 /**
  * 系统用户登陆
@@ -34,16 +32,16 @@ exports.signIn = (req,res) => {
  */
 exports.signUp = (req,res) => {
     let body = req.body;
-    if (!body || !(body.username && body.password && body.email)) {
+    if (!body || !(body.username && body.password)) {
         res.json(message('params invalid'));
         return;
     }
-    userService.findOne({email:body.email}).exec((err,data) => {
+    userService.findOne({username:body.username}).exec((err,data) => {
         if(err){
             return res.json(message(err));
         }
         if (data) {
-            return res.json(message('email repeat'));
+            return res.json(message('username repeat'));
         }
         userService.create(body,(err,data) => {
             console.log(err);
