@@ -146,7 +146,7 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-var pages = {index: './index.html', signIn: './signIn.html'} //utils.getEntries('./src/views/*/*.html');
+const pages = {index: './index.html', signIn: './signIn.html'} //utils.getEntries('./src/views/*/*.html');
 for (var page in pages) {
   // 配置生成的html文件，定义路径等
   var conf = {

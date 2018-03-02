@@ -15,7 +15,7 @@ module.exports = ()=>{
 	// 系统用户表
 	let userSchema = new mongoose.Schema({
 		username:{type:String,required: true},						/*用户名*/
-		userPassword:{type:String,required: true},					/*密码*/
+		password:{type:String,required: true},						/*密码*/
 		department:{type:ObjectId,required:true,ref:"Department"}, 	/*所在科室,关联科室表*/
 		title:{type:ObjectId,required:true,ref:"Title"}, 			/*医师职称 关联职称表*/
 		status:{type:Number,required:true,default:0},				/*状态  -1封禁，0正常，999超级管理员*/

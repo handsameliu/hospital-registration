@@ -12,6 +12,9 @@ exports.signUp = (req,res)=>{
 exports.signOut = (req,res)=>{
 	user.signOut(req,res);
 };
-exports.search = (req,res)=>{
-	user.search(req,res);
+exports.searchUser = (req,res)=>{
+	user.searchUser(req,res);
+};
+exports.updateUser = (req,res)=>{
+	user.updateUser(req,res);
 };
