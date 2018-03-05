@@ -75,7 +75,7 @@ exports.searchUser = (req,res) => {
     });
 };
 /**
- * 修改系统用户信息
+ * 修改系统用户状态信息
  * @param {*} req 
  * @param {*} res 
  */
