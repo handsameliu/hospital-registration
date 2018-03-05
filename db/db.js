@@ -125,7 +125,7 @@ module.exports = ()=>{
 	models.User = mongoose.model('User',userSchema,'user');
 	models.Department = mongoose.model('Department',departmentSchema,'department');
 	models.Title = mongoose.model('Title',titleSchema,'title');
-	models.Module = mongoose.model('Module',moduleSchema,'module');
+	models.Modular = mongoose.model('Modular',moduleSchema,'modular');
 	models.Jurisdiction = mongoose.model('Jurisdiction',jurisdictionSchema,'jurisdiction');
 	models.Patient = mongoose.model('Patient',patientSchema,'patient');
 	models.Register = mongoose.model('Register',registerSchema,'register');

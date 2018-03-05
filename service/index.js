@@ -3,7 +3,7 @@ module.exports = {
     article: require('./article'),
     department: require('./department'),
     title: require('./title'),
-    module: require('./module'),
+    modular: require('./modular'),
     jurisdiction: require('./jurisdiction'),
     patient: require('./patient'),
     register: require('./register'),

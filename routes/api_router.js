@@ -7,9 +7,9 @@ const userController = require("../controller/userController");
 const departmentController = require("../controller/departmentController");
 const titleController = require("../controller/titleController");
 // const articleController = require("../controller/articleController");
-// const jurisdictionController = require("../controller/jurisdictionController");
+const jurisdictionController = require("../controller/jurisdictionController");
 // const medicineController = require("../controller/medicineController");
-// const moduleController = require("../controller/moduleController");
+const moduleController = require("../controller/moduleController");
 // const patientController = require("../controller/patientController");
 // const registerController = require("../controller/registerController");
 // const testController = require("../controller/testController");
@@ -44,20 +44,20 @@ router.get('/getTitleList',titleController.getTitleList);                       
 /**
  * 系统模块表
  */
-// router.post('/addModule',moduleController.addModule);                                   // 新增
-// router.post('/editModule',moduleController.editModule);                                 // 修改
-// router.post('/delModule',moduleController.delModule);                                   // 删除
-// router.get('/getModuleById/:moduleId',moduleController.getModuleById);                  // 通过id获取对应信息
-// router.get('/getModuleList',moduleController.getModuleList);                            // 获取列表信息
+router.post('/addModule',moduleController.addModule);                                   // 新增
+router.post('/editModule',moduleController.editModule);                                 // 修改
+router.post('/delModule',moduleController.delModule);                                   // 删除
+router.get('/getModuleById/:moduleId',moduleController.getModuleById);                  // 通过id获取对应信息
+router.get('/getModuleList',moduleController.getModuleList);                            // 获取列表信息
 
 /**
  * 权限表
  */
-// router.post('/addJurisdiction',jurisdictionController.addJurisdiction);                       // 新增
-// router.post('/editJurisdiction',jurisdictionController.editJurisdiction);                     // 修改
-// router.post('/delJurisdiction',jurisdictionController.delJurisdiction);                       // 删除
-// router.get('/getJurisdictionById/:jurisdictionId',jurisdictionController.getJurisdictionById);  // 通过id获取对应信息
-// router.get('/getJurisdictionList',jurisdictionController.getJurisdictionList);                // 获取列表信息
+router.post('/addJurisdiction',jurisdictionController.addJurisdiction);                       // 新增
+router.post('/editJurisdiction',jurisdictionController.editJurisdiction);                     // 修改
+router.post('/delJurisdiction',jurisdictionController.delJurisdiction);                       // 删除
+router.get('/getJurisdictionById/:jurisdictionId',jurisdictionController.getJurisdictionById);  // 通过id获取对应信息
+router.get('/getJurisdictionList',jurisdictionController.getJurisdictionList);                // 获取列表信息
 
 /**
  * 患者档案表

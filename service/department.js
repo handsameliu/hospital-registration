@@ -31,17 +31,17 @@ exports.addDepartment = (req, res) => {
     });
 }
 /**
- * 
+ * 修改科室信息
  * @param {_id 被修改的科室id，name 科室名称，address 科室地址，desc 科室备注} req 
  * @param {*} res 
  */
 exports.editDepartment = (req, res) => {
     let id = req.body._id;
-    departmentService.findByIdAndUpdate(req.body._id,{$set:{name: req.body.name,address: req.body.address,desc: req.body.desc}}).exec((err, data) => {
+    departmentService.findByIdAndUpdate(req.body._id,{$set: {name: req.body.name, address: req.body.address, desc: req.body.desc}}, {new: true}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
-        res.json(message(null, {error_code: 0, message: 'SUCCESS'}));
+        res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
     })
 }
 /**

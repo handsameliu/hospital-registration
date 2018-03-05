@@ -5,8 +5,8 @@ let {message} = require('../helper');
 let titleService = db.Title;
 
 /**
- * 新增科室
- * @param {name 科室名称，address 科室地址，desc 科室备注} req 
+ * 新增职位
+ * @param {name 职位名称，address 职位地址，desc 职位备注} req 
  * @param {*} res 
  */
 exports.addTitle = (req, res) => {
@@ -31,22 +31,22 @@ exports.addTitle = (req, res) => {
     });
 }
 /**
- * 
- * @param {_id 被修改的科室id，name 科室名称，address 科室地址，desc 科室备注} req 
+ * 修改模块信息
+ * @param {_id 被修改的职位id，name 职位名称，address 职位地址，desc 职位备注} req 
  * @param {*} res 
  */
 exports.editTitle = (req, res) => {
     let id = req.body._id;
-    titleService.findByIdAndUpdate(req.body._id,{$set:{name: req.body.name, desc: req.body.desc}}).exec((err, data) => {
+    titleService.findByIdAndUpdate(req.body._id,{$set:{name: req.body.name, desc: req.body.desc}}, {new: true}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
-        res.json(message(null, {error_code: 0, message: 'SUCCESS'}));
+        res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
     })
 }
 /**
- * 删除科室id
- * @param {_id 要删除的科室id} req 
+ * 删除职位id
+ * @param {_id 要删除的职位id} req 
  * @param {*} res 
  */
 exports.delTitle = (req, res) => {
@@ -59,8 +59,8 @@ exports.delTitle = (req, res) => {
     })
 }
 /**
- * 根据科室id查询科室信息
- * @param {_id 要查询的科室id} req 
+ * 根据职位id查询职位信息
+ * @param {_id 要查询的职位id} req 
  * @param {*} res 
  */
 exports.getTitleById = (req, res) => {
@@ -74,7 +74,7 @@ exports.getTitleById = (req, res) => {
 }
 /**
  * 通过查询条件查询列表
- * @param {name 科室名称，address 科室地址，desc 科室备注} req 
+ * @param {name 职位名称，address 职位地址，desc 职位备注} req 
  * @param {*} res 
  */
 exports.getTitleList = (req, res) => {
