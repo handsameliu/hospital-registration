@@ -11,6 +11,10 @@ exports.editJurisdiction = (req, res) => {
     jurisdiction.editJurisdiction(req, res);
 }
 
+exports.delJurisdiction = (req, res) => {
+    jurisdiction.delJurisdiction(req, res);
+}
+
 exports.getJurisdictionById = (req, res) => {
     jurisdiction.getJurisdictionById(req, res);
 }

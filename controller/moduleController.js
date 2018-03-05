@@ -1,24 +1,24 @@
 "use strict";
 
 let service = require('../service');
-let module = service.module;
+let modular = service.modular;
 
 exports.addModule = (req, res) => {
-    module.addModule(req, res);
+    modular.addModule(req, res);
 }
 
 exports.editModule = (req, res) => {
-    module.editModule(req, res);
+    modular.editModule(req, res);
 }
 
 exports.delModule = (req, res) => {
-    module.delModule(req, res);
+    modular.delModule(req, res);
 }
 
 exports.getModuleById = (req, res) => {
-    module.getModuleById(req, res);
+    modular.getModuleById(req, res);
 }
 
 exports.getModuleList = (req, res) => {
-    module.getModuleList(req, res);
+    modular.getModuleList(req, res);
 }
