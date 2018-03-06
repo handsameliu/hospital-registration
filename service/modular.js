@@ -36,7 +36,9 @@ exports.addModule = (req, res) => {
  * @param {*} res 
  */
 exports.editModule = (req, res) => {
-    let id = req.body._id;
+    if (!req.body._id) {
+        return res.json(message('params invalid'));
+    }
     moduleService.findByIdAndUpdate(req.body._id,{$set:{name: req.body.name, status: req.body.status, desc: req.body.desc}}, {new: true}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
@@ -50,6 +52,9 @@ exports.editModule = (req, res) => {
  * @param {*} res 
  */
 exports.delModule = (req, res) => {
+    if (!req.body._id) {
+        return res.json(message('params invalid'));
+    }
     moduleService.remove({_id: req.body._id}, (err) => {
         if (err) {
             return res.json(message(err));
@@ -64,6 +69,9 @@ exports.delModule = (req, res) => {
  */
 exports.getModuleById = (req, res) => {
     console.log(req.params)
+    if(!req.params.moduleId){
+        return res.json(message('params invalid'));
+    }
     moduleService.findById(req.params.moduleId).exec((err, data) => {
         if (err) {
             return res.json(message(err));

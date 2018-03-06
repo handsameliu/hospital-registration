@@ -8,9 +8,9 @@ const departmentController = require("../controller/departmentController");
 const titleController = require("../controller/titleController");
 // const articleController = require("../controller/articleController");
 const jurisdictionController = require("../controller/jurisdictionController");
-// const medicineController = require("../controller/medicineController");
+const medicineController = require("../controller/medicineController");
 const moduleController = require("../controller/moduleController");
-// const patientController = require("../controller/patientController");
+const patientController = require("../controller/patientController");
 // const registerController = require("../controller/registerController");
 // const testController = require("../controller/testController");
 
@@ -56,16 +56,16 @@ router.get('/getModuleList',moduleController.getModuleList);                    
 router.post('/addJurisdiction',jurisdictionController.addJurisdiction);                       // 新增
 router.post('/editJurisdiction',jurisdictionController.editJurisdiction);                     // 修改
 router.post('/delJurisdiction',jurisdictionController.delJurisdiction);                       // 删除
-router.get('/getJurisdictionById/:jurisdictionId',jurisdictionController.getJurisdictionById);  // 通过id获取对应信息
+router.get('/getJurisdictionById/:jurisdictionId',jurisdictionController.getJurisdictionById);// 通过id获取对应信息
 router.get('/getJurisdictionList',jurisdictionController.getJurisdictionList);                // 获取列表信息
 
 /**
  * 患者档案表
  */
-// router.post('/addPatient',patientController.addPatient);                                // 新增
-// router.post('/editPatient',patientController.editPatient);                              // 修改
-// router.get('/getPatientById/:patientId',patientController.getPatientById);           // 通过id获取对应信息
-// router.get('/getPatientList',patientController.getPatientList);                         // 获取列表信息
+router.post('/addPatient',patientController.addPatient);                                // 新增
+router.post('/editPatient',patientController.editPatient);                              // 修改
+router.get('/getPatientById/:patientId',patientController.getPatientById);              // 通过id获取对应信息
+router.get('/getPatientList',patientController.getPatientList);                         // 获取列表信息
 
 /**
  * 挂号表
@@ -87,11 +87,11 @@ router.get('/getJurisdictionList',jurisdictionController.getJurisdictionList);  
 /**
  * 药表
  */
-// router.post('/addMedicine',medicineController.addMedicine);                             // 新增
-// router.post('/editMedicine',medicineController.editMedicine);                           // 修改
-// router.post('/delMedicine',medicineController.delMedicine);                             // 删除
-// router.get('/getMedicineById/:medicineId',medicineController.getMedicineById);          // 通过id获取对应信息
-// router.get('/getMedicineList',medicineController.getMedicineList);                      // 获取列表信息
+router.post('/addMedicine',medicineController.addMedicine);                             // 新增
+router.post('/editMedicine',medicineController.editMedicine);                           // 修改
+router.post('/delMedicine',medicineController.delMedicine);                             // 删除
+router.get('/getMedicineById/:medicineId',medicineController.getMedicineById);          // 通过id获取对应信息
+router.get('/getMedicineList',medicineController.getMedicineList);                      // 获取列表信息
 
 
 module.exports = router;
