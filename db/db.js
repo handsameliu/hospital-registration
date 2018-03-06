@@ -81,10 +81,10 @@ module.exports = ()=>{
 		socialSecurityId:{type:String,required:true},				/*患者社保卡号 有就是医保报销，无就是自费 */
 		address:{type:String,required:true},						/*患者联系地址*/
 		mobile:{type:String,required:true},							/*患者联系方式*/
-		userId:{type:ObjectId,required:true,ref:"User"},				/*创建者ID 关联系统用户表*/
+		userId:{type:ObjectId,required:true,ref:"User"},			/*创建者ID 关联系统用户表*/
 		//-------
 		patientId:{type:ObjectId,required:true,ref:" Patient"},		/*关联患者id*/
-		departmentId:{type:ObjectId,required:true,ref:"Department"},  /*关联科室表id */
+		departmentId:{type:ObjectId,required:true,ref:"Department"},/*关联科室表id */
 		doctorId:{type:ObjectId,required:true,ref:"User"},			/*主治医师id */
 		visitDate:{type:Date,required:true},						/*就诊日期*/
 		visitDateStage:{type:Number,required:true},					/*就诊阶段，0 上午 ，1 下午*/
