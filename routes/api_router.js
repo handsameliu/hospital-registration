@@ -6,13 +6,12 @@ const router = express.Router();
 const userController = require("../controller/userController");
 const departmentController = require("../controller/departmentController");
 const titleController = require("../controller/titleController");
-// const articleController = require("../controller/articleController");
 const jurisdictionController = require("../controller/jurisdictionController");
 const medicineController = require("../controller/medicineController");
 const moduleController = require("../controller/moduleController");
 const patientController = require("../controller/patientController");
-// const registerController = require("../controller/registerController");
-// const testController = require("../controller/testController");
+const registerController = require("../controller/registerController");
+const testController = require("../controller/testController");
 
 /**
  * 系统用户表
@@ -78,11 +77,11 @@ router.get('/getPatientList',patientController.getPatientList);                 
 /**
  * 体检项表
  */
-// router.post('/addTest',testController.addTest);                                         // 新增
-// router.post('/editTest',testController.editTest);                                       // 修改
-// router.post('/delTest',testController.delTest);                                         // 删除
-// router.get('/getTestById/:testId',testController.getTestById);                          // 通过id获取对应信息
-// router.get('/getTestList',testController.getTestList);                                  // 获取列表信息
+router.post('/addTest',testController.addTest);                                         // 新增
+router.post('/editTest',testController.editTest);                                       // 修改
+router.post('/delTest',testController.delTest);                                         // 删除
+router.get('/getTestById/:testId',testController.getTestById);                          // 通过id获取对应信息
+router.get('/getTestList',testController.getTestList);                                  // 获取列表信息
 
 /**
  * 药表

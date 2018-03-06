@@ -84,7 +84,6 @@ exports.updateUser = (req, res) => {
     if(!body && !(req.body || body.department || body.title || body.status)){
         return res.json(message('parmas invalid'));
     }
-    console.log(body);
     userService.findByIdAndUpdate(body._id, {$set: {department: body.department, title: body.title, status: body.status}}, {new: true}).exec((err, data) => {
         if(err){
             return message(err);
