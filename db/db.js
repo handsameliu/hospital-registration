@@ -66,7 +66,7 @@ module.exports = ()=>{
 		socialSecurityId:{type:String,required:true},	/*患者社保卡号 有就是医保报销，无就是自费 */
 		address:{type:String,required:true},			/*患者联系地址*/
 		mobile:{type:String,required:true},				/*患者联系方式*/
-		userId:{type:String,required:true,ref:"User"},	/*创建者ID 关联系统用户表*/
+		userId:{type:ObjectId,required:true,ref:"User"},/*创建者ID 关联系统用户表*/
 		desc:{type:String,required:false},				/*备注*/
 		createTime:{type:Date,default: Date.now},		/*创建时间*/
 		updateTime:{type:Date,default: Date.now}		/*修改时间*/
@@ -81,11 +81,11 @@ module.exports = ()=>{
 		socialSecurityId:{type:String,required:true},				/*患者社保卡号 有就是医保报销，无就是自费 */
 		address:{type:String,required:true},						/*患者联系地址*/
 		mobile:{type:String,required:true},							/*患者联系方式*/
-		userId:{type:String,required:true,ref:"User"},				/*创建者ID 关联系统用户表*/
+		userId:{type:ObjectId,required:true,ref:"User"},				/*创建者ID 关联系统用户表*/
 		//-------
-		patientId:{type:String,required:true,ref:" Patient"},		/*关联患者id*/
-		departmentId:{type:String,required:true,ref:"Department"},  /*关联科室表id */
-		doctorId:{type:String,required:true,ref:"User"},			/*主治医师id */
+		patientId:{type:ObjectId,required:true,ref:" Patient"},		/*关联患者id*/
+		departmentId:{type:ObjectId,required:true,ref:"Department"},  /*关联科室表id */
+		doctorId:{type:ObjectId,required:true,ref:"User"},			/*主治医师id */
 		visitDate:{type:Date,required:true},						/*就诊日期*/
 		visitDateStage:{type:Number,required:true},					/*就诊阶段，0 上午 ，1 下午*/
 		type:{type:Number,required:true,default:0},					/*当前就诊阶段  0刚挂号未分诊，1已分诊等待就诊，2就诊中，3挂起，4就诊完毕*/
@@ -113,8 +113,8 @@ module.exports = ()=>{
 	// 药表
 	let medicineSchema = new mongoose.Schema({
 		name:{type:String,required:true},				/*药物名称*/
-		isOTC:{type:Boolean,required:true},				/*处方药 是否是OTC类药物 true可随意购买，false需医师指导购买*/
-		price:{type:Number,required:false},				/*处方药价格*/
+		isOTC:{type:Number,required:true},				/*处方药 是否是OTC类药物 0可随意购买，1需医师指导购买 由boolean改为number类型*/
+		price:{type:Number,required:true},				/*处方药价格*/
 		status:{type:Number,required:true},				/*状态： 0 正常售卖，1 下架，2 缺货， 3 补货中，4 限制售卖*/
 		desc:{type:String,required:false},				/*药物描述*/
 		createTime:{type:Date,default: Date.now},		/*创建时间*/
