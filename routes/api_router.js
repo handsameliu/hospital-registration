@@ -69,10 +69,10 @@ router.get('/getPatientList',patientController.getPatientList);                 
 /**
  * 挂号表
  */
-// router.post('/addRegister',registerController.addRegister);                             // 新增
-// router.post('/editRegister',registerController.editRegister);                           // 修改
-// router.get('/getRegisterById/:registerId',registerController.getRegisterById);          // 通过id获取对应信息
-// router.get('/getRegisterList',registerController.getRegisterList);                      // 获取列表信息
+router.post('/addRegister',registerController.addRegister);                             // 新增
+router.post('/editRegister',registerController.editRegister);                           // 修改
+router.get('/getRegisterById/:registerId',registerController.getRegisterById);          // 通过id获取对应信息
+router.get('/getRegisterList',registerController.getRegisterList);                      // 获取列表信息
 
 /**
  * 体检项表

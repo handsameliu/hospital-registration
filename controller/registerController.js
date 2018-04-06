@@ -11,9 +11,10 @@ exports.editRegister = (req, res) => {
     register.editRegister(req, res);
 }
 
-exports.delRegister = (req, res) => {
-    register.delRegister(req, res);
-}
+// 暂时用不到删除，挂号信息不能删除
+// exports.delRegister = (req, res) => {
+//     register.delRegister(req, res);
+// }
 
 exports.getRegisterById = (req, res) => {
     register.getRegisterById(req, res);

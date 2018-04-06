@@ -4,6 +4,11 @@ let {db} = require('../db');
 let {message} = require('../helper');
 let testModule = db.Test;
 
+/**
+ * 新增体检项
+ * @param {departmentId 科室，name 体检项名称，status 状态，price 价格，desc 备注} req 
+ * @param {*} res 
+ */
 exports.addTest = (req, res) => {
     let body = req.body;
     if(!body || !(body.name && body.departmentId && body.price && body.status && body.desc)){
@@ -26,6 +31,12 @@ exports.addTest = (req, res) => {
         })
     })
 }
+
+/**
+ * 修改体检项信息
+ * @param {departmentId 科室，name 体检项名称，status 状态，price 价格，desc备注} req 
+ * @param {*} res 
+ */
 exports.editTest = (req, res) => {
     let body = req.body;
     if(!body || !(body._id || body.name || body.departmentId || body.price || body.status || body.desc)){
@@ -38,6 +49,12 @@ exports.editTest = (req, res) => {
         res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
     })
 }
+
+/**
+ * 通过id删除体检项
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.delTest = (req, res) => {
     let body = req.body;
     if (!body._id) {
@@ -50,6 +67,12 @@ exports.delTest = (req, res) => {
         res.json(message(null, {error_code: 0, message: 'SUCCESS'}));
     })
 }
+
+/**
+ * 通过id获取体检项信息
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getTestById = (req, res) => {
     let testId = req.params.testId;
     if(!testId){
@@ -62,6 +85,12 @@ exports.getTestById = (req, res) => {
         res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
     })
 }
+
+/**
+ * 获取体检项
+ * @param {departmentId 科室，priceGT priceLT 价格区间，name 体检项名称，status 状态，price 价格} req 
+ * @param {*} res 
+ */
 exports.getTestList = (req, res) => {
     let query = req.query, whereObj = {};
     if (query.departmentId) {
