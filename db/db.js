@@ -35,6 +35,7 @@ module.exports = ()=>{
 	// 职称表
 	let titleSchema = new mongoose.Schema({
 		name:{type:String,required:true},				/*职称名称*/
+		price:{type:Number, required: true},			/*挂号价格 */
 		desc:{type:String,required:false},				/*备注*/
 		createTime:{type:Date,default: Date.now},		/*创建时间*/
 		updateTime:{type:Date,default: Date.now}		/*修改时间*/
@@ -63,7 +64,7 @@ module.exports = ()=>{
 		// 初次挂号时创建，其他情况下直接复制其信息至挂号表
 		name:{type:String,required:true},				/*患者名称*/
 		cardId:{type:String,required:true},				/*患者身份证号 */
-		socialSecurityId:{type:String,required:true},	/*患者社保卡号 有就是医保报销，无就是自费 */
+		socialSecurityId:{type:String,required:false},	/*患者社保卡号 有就是医保报销，无就是自费 */
 		address:{type:String,required:true},			/*患者联系地址*/
 		mobile:{type:String,required:true},				/*患者联系方式*/
 		userId:{type:ObjectId,required:true,ref:"User"},/*创建者ID 关联系统用户表*/
@@ -78,7 +79,7 @@ module.exports = ()=>{
 		// 给当前表添加患者档案表一样的字段
 		name:{type:String,required:true},							/*患者名称*/
 		cardId:{type:String,required:true},							/*患者身份证号 */
-		socialSecurityId:{type:String,required:true},				/*患者社保卡号 有就是医保报销，无就是自费 */
+		socialSecurityId:{type:String,required:false},				/*患者社保卡号 有就是医保报销，无就是自费 */
 		address:{type:String,required:true},						/*患者联系地址*/
 		mobile:{type:String,required:true},							/*患者联系方式*/
 		userId:{type:ObjectId,required:true,ref:"User"},			/*创建者ID 关联系统用户表*/
@@ -89,8 +90,8 @@ module.exports = ()=>{
 		visitDate:{type:Date,required:true},						/*就诊日期*/
 		visitDateStage:{type:Number,required:true},					/*就诊阶段，0 上午 ，1 下午*/
 		type:{type:Number,required:true,default:0},					/*当前就诊阶段  0刚挂号未分诊，1已分诊等待就诊，2就诊中，3挂起，4就诊完毕*/
-		test:{type:Array,required:false},							/*体检项 {id:体检项id,name:体检项名称,department:所在科室id,desc:描述}*/
-		medicine:{type:Array,required:false},						/*药物 {id:药物id,name:药物名称,desc:描述}*/
+		test:[{type: ObjectId, ref: "Test"}],						/*体检项  关联test 体检项表*/
+		medicine:[{type: ObjectId, ref: "Medicine"}],				/*药物  关联medicine 药物表*/
 		symptom:{type:String,required:false},						/*症状 */
 		testResults:{type:Array,required:false},					/*体检结果 {id:体检项id,result:体检结果}*/
 		price:{type:Number,required:true},							/*挂号价格 不同医生职称不同价格*/
