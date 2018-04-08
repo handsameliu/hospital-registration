@@ -11,7 +11,7 @@ let medicineModule = db.Medicine;
  */
 exports.addMedicine = (req, res) => {
     let body = req.body;
-    if (!body || !(body.name && body.isOTC && body.price && body.status && body.desc)) {
+    if (!body || !(body.name && body.price && body.status && body.desc && !isNaN(body.isOTC))) {
         if(isNaN(body.isOTC) || body.status<0 || body.price<0){
             return res.json(message('params invalid'));
         }
@@ -40,7 +40,7 @@ exports.addMedicine = (req, res) => {
  */
 exports.editMedicine = (req, res) => {
     let body = req.body;
-    if (!body || !(body._id && body.isOTC && body.name && body.price && body.status && body.desc)) {
+    if (!body || !(body._id && body.name && body.price && body.status && body.desc && !isNaN(body.isOTC))) {
         if(isNaN(body.isOTC) || body.status<0 || body.price<0){
             return res.json(message('params invalid'));
         }

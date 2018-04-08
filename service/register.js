@@ -93,9 +93,7 @@ exports.getRegisterList = (req, res) => {
     }else if(query.test){
         queryObj.test = {$in: [query.test]};    //{$elemMatch: {_id: query.test}}; 
     }
-    console.log(queryObj)
     registerService.find(queryObj)
-    // .populate([{path: 'departmentId', select: "_id name address desc"}, {path: 'userId', select: "_id username department title"}, {path: 'doctorId', select: "_id username department title"}, {path: 'test', select: "_id name departmentId price desc"}, {path: 'medicine', select: "_id name isOTC price desc"}])
     .populate({path: 'departmentId', select: "_id name address desc"})
     .populate({path: 'userId', select: "_id username department title", populate: [{ path: 'department', select: '_id name address desc'}, { path: 'title', select: '_id name desc'}]})
     .populate({path: 'doctorId', select: "_id username department title", populate: [{ path: 'department', select: '_id name address desc'}, { path: 'title', select: '_id name desc'}]})
@@ -108,7 +106,6 @@ exports.getRegisterList = (req, res) => {
             console.log(error);
             return res.json(message(error));
         }
-        console.log(data);
         // let returnData = data;
         // if(query.test){
         //     returnData = data.filter((item) => {
