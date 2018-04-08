@@ -18,6 +18,7 @@ import PharmacyOperation from '@/components/PharmacyOperation'
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
     routes: [
         {   // 首页
             path: '/',

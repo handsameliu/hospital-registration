@@ -1,5 +1,8 @@
 <template>
     <div class="registerOperation">
+        <div class="title-box">
+            > 患者挂号列表
+        </div>
         <div class="register-left">
             <p>挂号基本信息</p>
             <el-form ref="form" :model="form" label-width="80px" >
@@ -74,6 +77,7 @@ export default {
             }
         }
     },
+    mounted () {},
     methods: {
         onSubmit () {
             console.log('submit!')

@@ -6,10 +6,14 @@ import ElementUI from 'element-ui'
 import VCharts from 'v-charts'
 import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
+import axios from './lib/axios.config'
 
+// import FastClick from 'fastclick'       // 移动端 添加
+Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI, { size: 'small' })
 Vue.use(VCharts)
+// FastClick.attach(document.body)
 
 /* eslint-disable no-new */
 new Vue({
