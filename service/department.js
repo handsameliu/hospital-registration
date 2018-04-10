@@ -37,11 +37,19 @@ exports.addDepartment = (req, res) => {
  */
 exports.editDepartment = (req, res) => {
     let id = req.body._id;
-    departmentService.findByIdAndUpdate(req.body._id,{$set: {name: req.body.name, address: req.body.address, desc: req.body.desc}}, {new: true}).exec((err, data) => {
+    departmentService.findOne({name: req.body.name, address: req.body.address}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
-        res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
+        if (data && (data._id != id)) {
+            return res.json(message('department repeat'));
+        }
+        departmentService.findByIdAndUpdate(id,{$set: {name: req.body.name, address: req.body.address, desc: req.body.desc}}, {new: true}).exec((err, data) => {
+            if (err) {
+                return res.json(message(err));
+            }
+            res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
+        })
     })
 }
 /**
