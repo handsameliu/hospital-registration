@@ -72,25 +72,35 @@ exports.getRegisterList = (req, res) => {
         queryObj = {};
     if(query.name){
         queryObj.name = {$regex: req.query.name, $options: '$i'};
-    }else if(query.cardId){
+    }
+    if(query.cardId){
         queryObj.cardId = query.cardId;
-    }else if(query.socialSecurityId){
+    }
+    if(query.socialSecurityId){
         queryObj.socialSecurityId = query.socialSecurityId;
-    }else if(query.mobile){
+    }
+    if(query.mobile){
         queryObj.mobile = req.query.mobile;
-    }else if(query.userId){
+    }
+    if(query.userId){
         queryObj.userId = query.userId;
-    }else if(query.departmentId){
+    }
+    if(query.departmentId){
         queryObj.departmentId = query.departmentId;
-    }else if(query.doctorId){
+    }
+    if(query.doctorId){
         queryObj.doctorId = query.doctorId;
-    }else if(query.visitDate){
+    }
+    if(query.visitDate){
         queryObj.visitDate = query.visitDate;
-    }else if(query.visitDateStage){
+    }
+    if(query.visitDateStage){
         queryObj.visitDateStage = query.visitDateStage;
-    }else if(query.type){
+    }
+    if(!isNaN(query.type)){
         queryObj.type = query.type;
-    }else if(query.test){
+    }
+    if(query.test){
         queryObj.test = {$in: [query.test]};    //{$elemMatch: {_id: query.test}}; 
     }
     registerService.find(queryObj)
@@ -116,6 +126,6 @@ exports.getRegisterList = (req, res) => {
         //         }
         //     })
         // }
-        res.json(message(null,{error_code:0,message:'success',result:data}));
+        res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
     });
 }

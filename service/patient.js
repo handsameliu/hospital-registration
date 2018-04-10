@@ -76,9 +76,11 @@ exports.getPatientList = (req, res) => {
     let queryObj = {};
     if(query.name){
         queryObj.name = {$regex: query.name, $options: '$i'}
-    }else if(query.cardId){
+    }
+    if(query.cardId){
         queryObj.cardId = query.cardId
-    }else if(query.socialSecurityId){
+    }
+    if(query.socialSecurityId){
         queryObj.socialSecurityId = query.socialSecurityId;
     }
     patientModule.find(queryObj).exec((err, data) => {

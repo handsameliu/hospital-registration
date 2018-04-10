@@ -3,7 +3,7 @@
 const message = (err, result, message) => {
     const msg = {
         error_code: 0,
-        message: 'successful'
+        message: 'SUCCESS'
     }
     if (err) {
         msg.error_code = -1;

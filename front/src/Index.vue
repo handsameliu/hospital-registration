@@ -6,10 +6,10 @@
                 <div style="text-align: right;">
                     <el-dropdown trigger="click">
                         <span class="el-dropdown-link" style="color: #409EFF;">
-                            当前用户：王小虎<i class="el-icon-setting" style="margin: 0 15px"></i>
+                            当前用户：{{username}}<i class="el-icon-setting" style="margin: 0 15px"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>退出</el-dropdown-item>
+                        <el-dropdown-item @click.native = "signOut">退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -47,8 +47,31 @@
 </template>
 
 <script>
+    import tools from './lib/tools'
     export default {
-        name: 'app'
+        name: 'app',
+        data () {
+            return {
+                username: ''
+            }
+        },
+        mounted () {
+            if (!tools.getCookie('_id') && !tools.getCookie('username')) {
+                return tools.next('/signIn.html')
+            }
+            this.username = tools.getCookie('username')
+            if (!this.username || this.username === 'undefined') {
+                alert('非法操作，请登陆后重试')
+                tools.next('/signIn.html')
+            }
+        },
+        methods: {
+            signOut () {
+                tools.removeCookie('_id')
+                tools.removeCookie('username')
+                tools.next('/signIn.html')
+            }
+        }
     }
 </script>
 

@@ -14,7 +14,7 @@ exports.findAll = (req,res) => {
         if(err){
             return message('params invalid');
         }
-        res.json(message(null,{error_code:0,message:'success',result:data}));
+        res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
     });
 };
 /**
@@ -29,7 +29,7 @@ exports.findBySubject = (req,res) => {
         if(err){
             return message('params invalid');
         }
-        res.json(message(null,{error_code:0,message:'success',result:data}));
+        res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
     });
 };
 /**
@@ -41,7 +41,7 @@ exports.findArticleById = (req,res) => {
         if(err){
             return message('params invalid');
         }
-        res.json(message(null,{error_code:0,message:'success',result:data}));
+        res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
     });
 };
 /**
@@ -62,7 +62,7 @@ exports.saveArticle = (req,res) => {
         if(err){
             return res.json(message('error',err));
         }
-        res.json(message(null,{error_code:0,message:'success',result:data}));
+        res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
     });
 };
 /**
@@ -88,7 +88,7 @@ exports.saveComment = (req,res) => {
                 res.json(message('params invalid'));
                 return;
             }
-            res.json(message(null,{error_code:0,result:result,message:'success'}));
+            res.json(message(null,{error_code:0,result:result,message:'SUCCESS'}));
         });
     });
 };
@@ -105,7 +105,7 @@ exports.findCommentByArticleId = (req,res) => {
         if(err){
             return res.json(message('error',err));
         }
-        res.json(message(null,{message:'success',result:data}));
+        res.json(message(null,{message:'SUCCESS',result:data}));
     })
 };
 
@@ -123,7 +123,7 @@ exports.search = (req,res) => {
             if(err){
                 return message('params invalid');
             }
-            res.json(message(null,{error_code:0,message:'success',result:data}));
+            res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
         });
     }
 }
@@ -139,7 +139,7 @@ exports.update = (req,res) => {
             if(err){
                 return message('params invalid');
             }
-            res.json(message(null,{error_code:0,message:'success',result:data}));
+            res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
         });
     }
 }

@@ -78,15 +78,25 @@ exports.getDepartmentById = (req, res) => {
  * @param {*} res 
  */
 exports.getDepartmentList = (req, res) => {
-    console.log(req.query)
+    // console.log(req.query)
     // 以下两个方法都可以查询到对应信息，查询条件必须都要有，否则视为空，会查询到所有
     // departmentService.find({$or: [{name: new RegExp(req.query.name, 'g')}, {address: new RegExp(req.query.address, 'g')}, {desc: new RegExp(req.query.desc, 'g')}]}).exec((err ,data) => {
     // 使用and并排查询即可，$or会把所有符合条件的都查询出来（如果条件为空，那极有可能会查询出所有）
-    departmentService.find({name: {$regex: req.query.name, $options: '$i'}, address: {$regex: req.query.address, $options: '$i'}, desc: {$regex: req.query.desc, $options: '$i'}}).exec((err ,data) => {
+    let queryObj = {}
+    if (req.query.name) {
+        queryObj.name = {$regex: req.query.name, $options: '$i'}
+    }
+    if (req.query.address) {
+        queryObj.address = {$regex: req.query.address, $options: '$i'}
+    }
+    if(req.query.desc) {
+        queryObj.desc = {$regex: req.query.desc, $options: '$i'}
+    }
+    departmentService.find(queryObj).exec((err ,data) => {
         // $options: '$i' 忽略大小写选项
         if(err){
             return res.json(message(err));
         }
-        res.json(message(null,{error_code:0,message:'success',result:data}));
+        res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
     });
 }

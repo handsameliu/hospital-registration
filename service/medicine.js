@@ -100,7 +100,20 @@ exports.getMedicineList = (req, res) => {
         query.priceLT = 100000;
     }
     console.log(query);
-    medicineModule.find({status: query.status, isOTC: query.isOTC, name: {$regex: query.name, $options: '$i'}, price: { $gt: query.priceGT, $lt: query.priceLT }}).exec((err, data) => {
+    let queryObj = {}
+    if (query.status) {
+        queryObj.status = query.status
+    }
+    if(!isNaN(query.isOTC)) {
+        queryObj.isOTC = query.isOTC
+    }
+    if(query.name) {
+        queryObj.name = { $regex: query.name, $options: '$i' }
+    }
+    if(!isNaN(query.price)) {
+        queryObj.price = { $gt: query.priceGT, $lt: query.priceLT }
+    }
+    medicineModule.find(queryObj).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
