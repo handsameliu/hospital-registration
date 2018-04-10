@@ -146,12 +146,12 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-const pages = {index: './index.html', signIn: './signIn.html'} //utils.getEntries('./src/views/*/*.html');
+const pages = {index: './index.html', signIn: './signIn.html'} // utils.getEntries('./src/views/*/*.html');
 for (var page in pages) {
   // 配置生成的html文件，定义路径等
   var conf = {
     filename: page + '.html',
-    template: pages[page], //模板路径
+    template: pages[page], // 模板路径
     inject: true,
     // excludeChunks 允许跳过某些chunks, 而chunks告诉插件要引用entry里面的哪几个入口
     // 如何更好的理解这块呢？举个例子：比如本demo中包含两个模块（index和about），最好的当然是各个模块引入自己所需的js，

@@ -19,7 +19,7 @@ const testController = require("../controller/testController");
 router.post('/signIn', userController.signIn);									        /*登陆*/
 router.post('/signOut', userController.signOut);                                        /*退出*/
 router.post('/signUp', userController.signUp);                                          /*注册新用户*/
-router.post('/searchUser', userController.searchUser);                                  /*搜索系统用户*/
+router.get('/searchUser', userController.searchUser);                                   /*搜索系统用户*/
 router.post('/updateUser', userController.updateUser);                                  /*修改系统用户信息*/
 
 /**

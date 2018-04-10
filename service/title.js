@@ -6,15 +6,15 @@ let titleService = db.Title;
 
 /**
  * 新增职位
- * @param {name 职位名称，address 职位地址，desc 职位备注} req 
+ * @param {name 职位名称，price 价格，desc 职位备注} req 
  * @param {*} res 
  */
 exports.addTitle = (req, res) => {
     let body = req.body;
-    if(!body || !(body.name)){
+    if(!body || !(body.name && body.price)){
         return res.json(message('params invalid'));
     }
-    titleService.findOne({name: body.name, desc: body.desc}).exec((err, data) => {
+    titleService.findOne({name: body.name, desc: body.desc, price: body.price}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
@@ -32,12 +32,12 @@ exports.addTitle = (req, res) => {
 }
 /**
  * 修改模块信息
- * @param {_id 被修改的职位id，name 职位名称，address 职位地址，desc 职位备注} req 
+ * @param {_id 被修改的职位id，name 职位名称，price 价格，desc 职位备注} req 
  * @param {*} res 
  */
 exports.editTitle = (req, res) => {
     let id = req.body._id;
-    titleService.findByIdAndUpdate(req.body._id,{$set:{name: req.body.name, desc: req.body.desc}}, {new: true}).exec((err, data) => {
+    titleService.findByIdAndUpdate(req.body._id,{$set:{name: req.body.name, desc: req.body.desc, price: req.body.price}}, {new: true}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
@@ -74,19 +74,26 @@ exports.getTitleById = (req, res) => {
 }
 /**
  * 通过查询条件查询列表
- * @param {name 职位名称，address 职位地址，desc 职位备注} req 
+ * @param {name 职位名称，price 价格，desc 职位备注} req 
  * @param {*} res 
  */
 exports.getTitleList = (req, res) => {
-    console.log(req.query)
+    // console.log(req.query)
     // 以下两个方法都可以查询到对应信息，查询条件必须都要有，否则视为空，会查询到所有
     // titleService.find({$or: [{name: new RegExp(req.query.name, 'g')}, {address: new RegExp(req.query.address, 'g')}, {desc: new RegExp(req.query.desc, 'g')}]}).exec((err ,data) => {
     // 使用and并排查询即可，$or会把所有符合条件的都查询出来（如果条件为空，那极有可能会查询出所有）
-    titleService.find({name: {$regex: req.query.name, $options: '$i'}, desc: {$regex: req.query.desc, $options: '$i'}}).exec((err ,data) => {
+    let queryObj = {}
+    if (req.query.name) {
+        queryObj.name = {$regex: req.query.name, $options: '$i'}
+    }
+    if (req.query.desc){
+        queryObj.desc = {$regex: req.query.desc, $options: '$i'}
+    }
+    titleService.find(queryObj).exec((err ,data) => {
         // $options: '$i' 忽略大小写选项
         if(err){
             return res.json(message(err));
         }
-        res.json(message(null,{error_code:0,message:'success',result:data}));
+        res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
     });
 }

@@ -80,9 +80,10 @@ exports.getJurisdictionById = (req, res) => {
 exports.getJurisdictionList = (req, res) => {
     console.log(req.query)
     let whereObj = {};
-    if(req.query.title != ''){
+    if(req.query.title){
         whereObj.title = req.query.title;
-    }else if(req.query.desc != ''){
+    }
+    if(req.query.desc){
         whereObj.desc = {$regex: req.query.desc, $options: '$i'};
     }
     jurisdictionService.find(whereObj).exec((err ,data) => {
@@ -102,6 +103,6 @@ exports.getJurisdictionList = (req, res) => {
                 }
             })
         }
-        res.json(message(null, {error_code: 0, message: 'success', result: returnData}));
+        res.json(message(null, {error_code: 0, message: 'SUCCESS', result: returnData}));
     });
 }

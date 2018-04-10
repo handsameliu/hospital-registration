@@ -90,13 +90,15 @@ exports.getModuleList = (req, res) => {
     if(!isNaN(req.query.status) && req.query.status!=''){
         whereObj.status = req.query.status;
     }
-    whereObj.desc = {$regex: req.query.desc, $options: '$i'};
+    if (req.query.desc) {
+        whereObj.desc = {$regex: req.query.desc, $options: '$i'};
+    }
     moduleService.find( whereObj ).exec((err ,data) => {
         // $options: '$i' 忽略大小写选项
         if(err){
             console.error(err);
             return res.json(message(err));
         }
-        res.json(message(null,{error_code:0,message:'success',result:data}));
+        res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
     });
 }

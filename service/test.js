@@ -102,10 +102,10 @@ exports.getTestList = (req, res) => {
     if (query.priceLT==='') {
         query.priceLT = 200000;
     }
-    if(query.name !== ''){
+    if(query.name){
         whereObj.name = {$regex: query.name, $options: '$i'};
     }
-    if(query.status !== ''){
+    if(query.status){
         whereObj.status = query.status;
     }
     whereObj.price ={$gte: query.priceGT, $lte: query.priceLT};

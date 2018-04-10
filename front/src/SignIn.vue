@@ -23,6 +23,7 @@
 </template>
 
 <script>
+    import tools from './lib/tools'
     export default {
         name: 'signIn',
         data () {
@@ -56,7 +57,26 @@
                 this.$refs[formName].resetFields()
             },
             loading () {
-                this.$message.error('用户名或密码错误，请重新输入')
+                let _this = this
+                this.$http.axios({method: 'POST', url: '/api/signIn', data: {username: _this.form.username, password: _this.form.password}}).then((result) => {
+                    if (result && result.data) {
+                        let data = result.data
+                        if (data.error_code === 0 && data.message === 'SUCCESS') {
+                            tools.setCookie('username', data.result.username)
+                            tools.setCookie('_id', data.result._id)
+                            tools.next('/')
+                        } else {
+                            _this.$message.error(data.message, data.error_code)
+                        }
+                    } else {
+                        console.error(result)
+                        _this.$message.error('发生错误，请稍后重试')
+                    }
+                }).catch((error) => {
+                    console.log('我error了')
+                    console.error(error)
+                })
+                // this.$message.error('用户名或密码错误，请重新输入')
             }
         }
     }
