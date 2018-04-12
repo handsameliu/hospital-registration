@@ -82,11 +82,11 @@ exports.searchUser = (req, res) => {
         if(err){
             return res.json(message(err));
         }
-        userService.count(queryObj).exec((err, count) => {
+        userService.count(queryObj).exec((err, pageCount) => {
             if (err) {
                 return res.json(message(err));
             }
-            res.json(message(null, {error_code:0,message:'SUCCESS',result: {data, pageCount: count}}));
+            res.json(message(null, {error_code:0,message:'SUCCESS',result: {data, pageCount}}));
         })
     });
 };

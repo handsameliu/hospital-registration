@@ -183,7 +183,7 @@ export default {
                         _this.editCenterDialogVisible = false
                     } else {
                         let message = ''
-                        if(result.message === 'department repeat'){
+                        if (result.message === 'department repeat') {
                             message = '科室重复，请填写其他'
                         }
                         _this.$message.error(message || result.message)

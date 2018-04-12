@@ -14,7 +14,7 @@ exports.addTitle = (req, res) => {
     if(!body || !(body.name && body.price)){
         return res.json(message('params invalid'));
     }
-    titleService.findOne({name: body.name, desc: body.desc, price: body.price}).exec((err, data) => {
+    titleService.findOne({name: body.name}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
@@ -37,11 +37,19 @@ exports.addTitle = (req, res) => {
  */
 exports.editTitle = (req, res) => {
     let id = req.body._id;
-    titleService.findByIdAndUpdate(req.body._id,{$set:{name: req.body.name, desc: req.body.desc, price: req.body.price}}, {new: true}).exec((err, data) => {
+    titleService.findOne({name: req.body.name}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
-        res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
+        if (data && (data._id != id)) {
+            return res.json(message('title repeat'));
+        }
+        titleService.findByIdAndUpdate(id, {$set:{name: req.body.name, desc: req.body.desc, price: req.body.price}}, {new: true}).exec((err, data) => {
+            if (err) {
+                return res.json(message(err));
+            }
+            res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
+        })
     })
 }
 /**
@@ -78,10 +86,6 @@ exports.getTitleById = (req, res) => {
  * @param {*} res 
  */
 exports.getTitleList = (req, res) => {
-    // console.log(req.query)
-    // 以下两个方法都可以查询到对应信息，查询条件必须都要有，否则视为空，会查询到所有
-    // titleService.find({$or: [{name: new RegExp(req.query.name, 'g')}, {address: new RegExp(req.query.address, 'g')}, {desc: new RegExp(req.query.desc, 'g')}]}).exec((err ,data) => {
-    // 使用and并排查询即可，$or会把所有符合条件的都查询出来（如果条件为空，那极有可能会查询出所有）
     let queryObj = {}
     if (req.query.name) {
         queryObj.name = {$regex: req.query.name, $options: '$i'}
