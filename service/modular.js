@@ -36,14 +36,23 @@ exports.addModule = (req, res) => {
  * @param {*} res 
  */
 exports.editModule = (req, res) => {
-    if (!req.body._id) {
+    const body = req.body;
+    if (!body._id) {
         return res.json(message('params invalid'));
     }
-    moduleService.findByIdAndUpdate(req.body._id,{$set:{name: req.body.name, status: req.body.status, desc: req.body.desc}}, {new: true}).exec((err, data) => {
+    moduleService.findOne({name: body.name, status: body.status, desc: body.desc}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
-        res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
+        if (data && data._id != body._id) {
+            return res.json(message('module repeat'));
+        }
+        moduleService.findByIdAndUpdate(body._id,{$set:{name: body.name, status: body.status, desc: body.desc}}, {new: true}).exec((err, data) => {
+            if (err) {
+                return res.json(message(err));
+            }
+            res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
+        })
     })
 }
 /**

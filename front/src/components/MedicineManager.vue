@@ -155,7 +155,8 @@ export default {
             searchForm: {
                 name: '',
                 isOTC: 999,
-                price: 0,
+                priceGT: 0,
+                priceLT: 99999,
                 status: 0,
                 desc: ''
             },
@@ -182,9 +183,6 @@ export default {
             }
             if (!isNaN(this.searchForm.isOTC)) {
                 url += 'isOTC=' + this.searchForm.isOTC + '&'
-            }
-            if (this.searchForm.price) {
-                url += 'price=' + this.searchForm.price + '&'
             }
             if (!isNaN(this.searchForm.status)) {
                 url += 'status=' + this.searchForm.status + '&'
@@ -255,13 +253,6 @@ export default {
             this.seachData()
         },
         addSubmit () {
-            // this.addLoading = true
-            // console.log(this.addForm)
-            // let that = this
-            // setTimeout(function () {
-            //     that.addLoading = false
-            //     that.centerDialogVisible = false
-            // }, 2000)
             let _this = this
             if (!(_this.addForm.name && !isNaN(_this.addForm.isOTC) && !isNaN(_this.addForm.price) && !isNaN(_this.addForm.status))) {
                 return _this.$message.error('请将页面信息填写完整')
