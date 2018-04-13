@@ -11,7 +11,7 @@ let registerService = db.Register;
  */
 exports.addRegister = (req, res) => {
     let body = req.body;
-    if (!body || !(body.patient.userId && body.register.patientId && body.register.departmentId && body.register.doctorId && body.register.visitDate && body.register.type)) {
+    if (!body || !(body.patient.userId && body.register.patientId && body.register.departmentId && body.register.doctorId && body.register.visitDate && !isNaN(body.register.type))) {
         return res.json(message('params invalid'));
     }
     registerService.create({...body.patient,...body.register}, (error, data) => {

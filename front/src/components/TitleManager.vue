@@ -67,6 +67,7 @@ export default {
         return {
             addLoading: false,
             centerDialogVisible: false,
+            editCenterDialogVisible: false,
             addForm: {
                 name: '',
                 price: '',

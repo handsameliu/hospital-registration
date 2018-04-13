@@ -52,11 +52,11 @@ module.exports = ()=>{
 
 	// 权限表
 	let jurisdictionSchema = new mongoose.Schema({
-		title:{type:ObjectId,required:true,ref:"Title"},//职称id 关联职称表
-		module:{type:Array,required:true},				//模块id数组
-		desc:{type:String,required:false},				/*备注*/
-		createTime:{type:Date,default: Date.now},		/*创建时间*/
-		updateTime:{type:Date,default: Date.now}		/*修改时间*/
+		title:{type:ObjectId,required:true,ref:"Title"},		//职称id 关联职称表
+		module:[{type:ObjectId,required:true,ref:"Modular"}],	//模块id数组
+		desc:{type:String,required:false},						/*备注*/
+		createTime:{type:Date,default: Date.now},				/*创建时间*/
+		updateTime:{type:Date,default: Date.now}				/*修改时间*/
 	});
 
 	// 患者档案表

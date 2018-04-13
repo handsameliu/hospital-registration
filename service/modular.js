@@ -14,7 +14,7 @@ exports.addModule = (req, res) => {
     if(!body || !(body.name || body.status)){
         return res.json(message('params invalid'));
     }
-    moduleService.findOne({name: body.name, status: body.status, desc: body.desc}).exec((err, data) => {
+    moduleService.findOne({name: body.name, status: body.status}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
@@ -40,7 +40,7 @@ exports.editModule = (req, res) => {
     if (!body._id) {
         return res.json(message('params invalid'));
     }
-    moduleService.findOne({name: body.name, status: body.status, desc: body.desc}).exec((err, data) => {
+    moduleService.findOne({name: body.name, status: body.status}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
@@ -95,8 +95,10 @@ exports.getModuleById = (req, res) => {
  */
 exports.getModuleList = (req, res) => {
     let whereObj = {};
-    whereObj.name = {$regex: req.query.name, $options: '$i'};
-    if(!isNaN(req.query.status) && req.query.status!=''){
+    if(req.query.name){
+        whereObj.name = {$regex: req.query.name, $options: '$i'};
+    }
+    if(!isNaN(req.query.status) && req.query.status != '' && req.query.status != '999'){
         whereObj.status = req.query.status;
     }
     if (req.query.desc) {

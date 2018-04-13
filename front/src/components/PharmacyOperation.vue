@@ -78,80 +78,11 @@ export default {
                 name: '',
                 department: '',
                 visitDate: '',
-                visitDateStage: ''
+                visitDateStage: '',
+                type: ''
             },
-            tableData: [
-                {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }
-            ],
-            medicineTableData: [
-                {
-                    name: '',
-                    isOTC: true,
-                    price: '',
-                    desc: ''
-                }, {
-                    name: '',
-                    isOTC: true,
-                    price: '',
-                    desc: ''
-                }, {
-                    name: '',
-                    isOTC: true,
-                    price: '',
-                    desc: ''
-                }, {
-                    name: '',
-                    isOTC: true,
-                    price: '',
-                    desc: ''
-                }, {
-                    name: '',
-                    isOTC: true,
-                    price: '',
-                    desc: ''
-                }, {
-                    name: '',
-                    isOTC: true,
-                    price: '',
-                    desc: ''
-                }
-            ]
+            tableData: [],
+            medicineTableData: []
         }
     },
     methods: {
