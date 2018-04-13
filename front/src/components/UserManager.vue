@@ -285,7 +285,7 @@ export default {
                 if (result && result.data) {
                     result = result.data
                     if (result.error_code === 0 && result.message === 'SUCCESS') {
-                        this.departments = result.result
+                        _this.departments = result.result
                     } else {
                         _this.$message.error(result.message, result.error_code)
                     }
@@ -304,7 +304,7 @@ export default {
                 if (result && result.data) {
                     result = result.data
                     if (result.error_code === 0 && result.message === 'SUCCESS') {
-                        this.titles = result.result
+                        _this.titles = result.result
                     } else {
                         _this.$message.error(result.message, result.error_code)
                     }

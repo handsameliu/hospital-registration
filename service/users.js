@@ -78,7 +78,7 @@ exports.searchUser = (req, res) => {
     if (!isNaN(body.status)) {
         queryObj.status = body.status
     }
-    userService.find(queryObj, {password: 0}).limit(body.pageSize * 1).skip((body.pageNumber-1) * 1 * body.pageSize).populate('department', "_id name").populate('title', "_id name").exec((err,data) => {
+    userService.find(queryObj, {password: 0}).limit(body.pageSize * 1).skip((body.pageNumber-1) * 1 * body.pageSize).populate('department', "_id name").populate('title', "_id name price").exec((err,data) => {
         if(err){
             return res.json(message(err));
         }
@@ -107,7 +107,7 @@ exports.updateUser = (req, res) => {
         if (data && data.length > 0) {
             return res.json(message('infomation repeat'));
         }
-        userService.findByIdAndUpdate(body._id, {$set: {department: body.department, title: body.title, status: body.status}}, {select:'department status title username _id', new: true}).populate('department', "_id name").populate('title', "_id name").exec((err, data) => {
+        userService.findByIdAndUpdate(body._id, {$set: {department: body.department, title: body.title, status: body.status}}, {select:'department status title username _id', new: true}).populate('department', "_id name").populate('title', "_id name price").exec((err, data) => {
             if(err){
                 return res.json(message(err));
             }

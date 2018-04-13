@@ -15,7 +15,7 @@ import TestOperation from '@/components/TestOperation'
 import ChargeOperation from '@/components/ChargeOperation'
 import PharmacyOperation from '@/components/PharmacyOperation'
 import tools from '../lib/tools'
-console.log(tools)
+
 Vue.use(Router)
 
 const router = new Router({

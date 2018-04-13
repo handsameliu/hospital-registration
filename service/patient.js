@@ -26,7 +26,7 @@ exports.addPatient = (req, res) => {
             if (err) {
                 return res.json(message('addPatient error', err));
             }            
-            res.json(message(null, {error_code: 0, message: 'SUCCESS'}));
+            res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data._id}));
         })
     })
 }

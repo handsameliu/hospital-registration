@@ -11,10 +11,10 @@ let jurisdictionService = db.Jurisdiction;
  */
 exports.addJurisdiction = (req, res) => {
     let body = req.body;
-    if(!body || !(body.title && body.module)){
+    if(!body || !(body.title && body.module && body.module.length>0)){
         return res.json(message('params invalid'));
     }
-    jurisdictionService.findOne({title: body.title, module: body.module, desc: body.desc}).exec((err, data) => {
+    jurisdictionService.findOne({title: body.title}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
@@ -36,12 +36,20 @@ exports.addJurisdiction = (req, res) => {
  * @param {*} res 
  */
 exports.editJurisdiction = (req, res) => {
-    let id = req.body._id;
-    jurisdictionService.findByIdAndUpdate(req.body._id,{$set: {title: req.body.title, module: req.body.module, desc: req.body.desc}}, {new: true}).exec((err, data) => {
+    let body = req.body;
+    jurisdictionService.findOne({title: body.title}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
-        res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
+        if (data && data._id != body._id) {
+            return res.json(message('jurisdiction repeat'));
+        }
+        jurisdictionService.findByIdAndUpdate(body._id, {$set: {title: body.title, module: body.module, desc: body.desc}}, {new: true}).exec((err, data) => {
+            if (err) {
+                return res.json(message(err));
+            }
+            res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
+        })
     })
 }
 /**
@@ -83,26 +91,28 @@ exports.getJurisdictionList = (req, res) => {
     if(req.query.title){
         whereObj.title = req.query.title;
     }
+    if(req.query.module){
+        whereObj.module = {$in: req.query.module};
+    }
     if(req.query.desc){
         whereObj.desc = {$regex: req.query.desc, $options: '$i'};
     }
-    jurisdictionService.find(whereObj).exec((err ,data) => {
+    jurisdictionService.find(whereObj).populate('title', "_id name").populate('module', "_id name").exec((err ,data) => {
         // $options: '$i' 忽略大小写选项
-        console.log(data);
         if(err){
             console.error(err);
             return res.json(message(err));
         }
-        let returnData = data;
-        if(req.query.module){
-            returnData = data.filter((item) => {
-                for (let i=0;i<item.module.length;i++) {
-                    if (item.module[i]._id === req.query.module) {
-                        return true;
-                    }
-                }
-            })
-        }
+        const returnData = data;
+        // if(req.query.module){
+        //     returnData = data.filter((item) => {
+        //         for (let i=0;i<item.module.length;i++) {
+        //             if (item.module[i]._id === req.query.module) {
+        //                 return true;
+        //             }
+        //         }
+        //     })
+        // }
         res.json(message(null, {error_code: 0, message: 'SUCCESS', result: returnData}));
     });
 }

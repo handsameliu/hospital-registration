@@ -49,7 +49,7 @@ exports.editMedicine = (req, res) => {
         if (err) {
             return res.json(message(err));
         }
-        if (data) {
+        if (data && data._id != body._id) {
             console.log(data);
             return res.json(message('medicine repeat'));
         }
