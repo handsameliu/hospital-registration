@@ -1,7 +1,7 @@
 "use strict";
 
 let {db} = require('../db');
-let {message} = require('../helper');
+let {message, simpleDateFormat} = require('../helper');
 let registerService = db.Register;
 
 /**
@@ -70,6 +70,7 @@ exports.getRegisterList = (req, res) => {
     console.log(req.query);
     let query = req.query,
         queryObj = {};
+    console.log('query', query)
     if(query.name){
         queryObj.name = {$regex: req.query.name, $options: '$i'};
     }
@@ -85,16 +86,20 @@ exports.getRegisterList = (req, res) => {
     if(query.userId){
         queryObj.userId = query.userId;
     }
-    if(query.departmentId){
-        queryObj.departmentId = query.departmentId;
+    if(query.department){
+        queryObj.departmentId = query.department;
     }
     if(query.doctorId){
         queryObj.doctorId = query.doctorId;
     }
-    if(query.visitDate){
-        queryObj.visitDate = query.visitDate;
+    if(!query.visitDateStart){
+        query.visitDateStart = simpleDateFormat(new Date(), 'yyyy-MM-dd')
     }
-    if(query.visitDateStage){
+    if(!query.visitDateOver){
+        query.visitDateOver = simpleDateFormat(new Date(), 'yyyy-MM-dd')
+    }
+    queryObj.visitDate = {$gte: query.visitDateStart, $lte: query.visitDateOver}
+    if(query.visitDateStage && query.visitDateStage!=='999'){
         queryObj.visitDateStage = query.visitDateStage;
     }
     if(!isNaN(query.type)){
@@ -103,11 +108,11 @@ exports.getRegisterList = (req, res) => {
     if(query.test){
         queryObj.test = {$in: [query.test]};    //{$elemMatch: {_id: query.test}}; 
     }
+    console.log('queryObj', queryObj)
     registerService.find(queryObj)
     .populate({path: 'departmentId', select: "_id name address desc"})
     .populate({path: 'userId', select: "_id username department title", populate: [{ path: 'department', select: '_id name address desc'}, { path: 'title', select: '_id name desc'}]})
     .populate({path: 'doctorId', select: "_id username department title", populate: [{ path: 'department', select: '_id name address desc'}, { path: 'title', select: '_id name desc'}]})
-    // 无法使用populate方法，待查
     .populate({path: 'test', select: ['_id', 'name', 'departmentId', 'price', 'desc'], populate: {path: 'departmentId', select: '_id name address desc'}})
     .populate({path: 'medicine', select: "_id name isOTC price desc"})
     .exec((error ,data) => {
@@ -116,6 +121,12 @@ exports.getRegisterList = (req, res) => {
             console.log(error);
             return res.json(message(error));
         }
+        registerService.count(queryObj).exec((err, pageCount) => {
+            if(err){
+                return res.json(message(err));
+            }
+            res.json(message(null,{error_code: 0,message: 'SUCCESS',result: {data, pageCount}}));
+        })
         // let returnData = data;
         // if(query.test){
         //     returnData = data.filter((item) => {
@@ -126,6 +137,5 @@ exports.getRegisterList = (req, res) => {
         //         }
         //     })
         // }
-        res.json(message(null,{error_code:0,message:'SUCCESS',result:data}));
     });
 }
