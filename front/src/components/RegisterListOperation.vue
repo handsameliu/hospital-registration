@@ -50,6 +50,9 @@
         </div>
         <el-table :data="tableData" border stripe height="450" style="width: 100%" v-loading="searchLoading">
             <el-table-column prop="createTime" label="创建时间">
+                <template slot-scope="scope">
+                    {{registerDate(scope.row.createTime, 'yyyy-MM-dd')}}
+                </template>
             </el-table-column>
             <el-table-column prop="name" label="患者姓名">
             </el-table-column>

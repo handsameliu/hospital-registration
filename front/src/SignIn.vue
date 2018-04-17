@@ -62,9 +62,7 @@
                     if (result && result.data) {
                         let data = result.data
                         if (data.error_code === 0 && data.message === 'SUCCESS') {
-                            tools.setCookie('username', data.result.username)
-                            tools.setCookie('_id', data.result._id)
-                            tools.next('/')
+                            _this.meta(data.result)
                         } else {
                             _this.$message.error(data.message, data.error_code)
                         }
@@ -77,6 +75,24 @@
                     console.error(error)
                 })
                 // this.$message.error('用户名或密码错误，请重新输入')
+            },
+            meta (data) {
+                let _this = this
+                this.$http.axios({method: 'GET', url: '/api/logingMate?_id=' + data._id + '&title=' + data.title}).then((result) => {
+                    result = result.data
+                    if (result.error_code === 0 && result.message === 'SUCCESS') {
+                        console.log(result.result)
+                        tools.setCookie('username', data.username)
+                        tools.setCookie('_id', data._id)
+                        sessionStorage.setItem('meta', JSON.stringify(result.result))
+                        tools.next('/')
+                    } else {
+                        _this.$message.error(result.message, result.error_code)
+                    }
+                }).catch((error) => {
+                    console.log('我error了')
+                    console.error(error)
+                })
             }
         }
     }

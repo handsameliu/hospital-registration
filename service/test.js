@@ -2,7 +2,7 @@
 
 let {db} = require('../db');
 let {message} = require('../helper');
-let testModule = db.Test;
+let testService = db.Test;
 
 /**
  * 新增体检项
@@ -16,14 +16,14 @@ exports.addTest = (req, res) => {
             return res.json(message('params invalid'));
         }
     }
-    testModule.findOne({name: body.name, departmentId: body.departmentId}).exec(function(err, data){
+    testService.findOne({name: body.name, departmentId: body.departmentId}).exec(function(err, data){
         if(err){
             return res.json(message(err));
         }
         if(data){
             return res.json(message('testItem repeat'));
         }
-        testModule.create(body, (err, data) => {
+        testService.create(body, (err, data) => {
             if (err) {
                 return res.json(message(err))
             }
@@ -42,14 +42,14 @@ exports.editTest = (req, res) => {
     if(!body || !(body._id || body.name || body.departmentId || !isNaN(body.price) || body.status || body.desc)){
         return res.json(message('params invalid'));
     }
-    testModule.findOne({name: body.name, departmentId: body.departmentId}).exec(function(err, data){
+    testService.findOne({name: body.name, departmentId: body.departmentId}).exec(function(err, data){
         if(err){
             return res.json(message(err));
         }
         if(data && data._id != body._id){
             return res.json(message('testItem repeat'));
         }
-        testModule.findByIdAndUpdate(body._id, {$set : {name: body.name, departmentId: body.departmentId, price: body.price, status: body.status, desc: body.desc}}, {new: true}).exec((err, data) => {
+        testService.findByIdAndUpdate(body._id, {$set : {name: body.name, departmentId: body.departmentId, price: body.price, status: body.status, desc: body.desc}}, {new: true}).exec((err, data) => {
             if (err) {
                 return res.json(message(err));
             }
@@ -68,7 +68,7 @@ exports.delTest = (req, res) => {
     if (!body._id) {
         return res.json(message('params invalid'))
     }
-    testModule.remove({_id: body._id}).exec((err, data) => {
+    testService.remove({_id: body._id}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
@@ -86,7 +86,7 @@ exports.getTestById = (req, res) => {
     if(!testId){
         return res.json(message('params invalid'));
     }
-    testModule.findById(testId).populate({path: 'departmentId', select: "_id name address desc"}).exec((err, data) => {
+    testService.findById(testId).populate({path: 'departmentId', select: "_id name address desc"}).exec((err, data) => {
         if(err){
             return res.json(message(err));
         }
@@ -120,12 +120,12 @@ exports.getTestList = (req, res) => {
         whereObj.desc = query.desc;
     }
     whereObj.price ={$gte: query.priceGT, $lte: query.priceLT};
-    testModule.find(whereObj).populate('departmentId',"_id name address desc").exec((err, data) => {
+    testService.find(whereObj).populate('departmentId',"_id name address desc").exec((err, data) => {
         if (err) {  
             console.log(err);
             return res.json(message(err));
         }
-        testModule.count(whereObj).exec((err, pageCount) => {
+        testService.count(whereObj).exec((err, pageCount) => {
             if (err) {
                 return res.json(message(err));
             }

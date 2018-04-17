@@ -57,6 +57,7 @@ router.post('/editJurisdiction',jurisdictionController.editJurisdiction);       
 router.post('/delJurisdiction',jurisdictionController.delJurisdiction);                       // 删除
 router.get('/getJurisdictionById/:jurisdictionId',jurisdictionController.getJurisdictionById);// 通过id获取对应信息
 router.get('/getJurisdictionList',jurisdictionController.getJurisdictionList);                // 获取列表信息
+router.get('/logingMate',jurisdictionController.logingMate);                                  // 登陆时获取展示模块
 
 /**
  * 患者档案表
@@ -73,6 +74,7 @@ router.post('/addRegister',registerController.addRegister);                     
 router.post('/editRegister',registerController.editRegister);                           // 修改
 router.get('/getRegisterById/:registerId',registerController.getRegisterById);          // 通过id获取对应信息
 router.get('/getRegisterList',registerController.getRegisterList);                      // 获取列表信息
+router.post('/getRegisterByTestAndDoctor',registerController.getRegisterByTestAndDoctor);// 获取当前医生名下体检患者列表
 
 /**
  * 体检项表

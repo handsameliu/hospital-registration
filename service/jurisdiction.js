@@ -116,3 +116,16 @@ exports.getJurisdictionList = (req, res) => {
         res.json(message(null, {error_code: 0, message: 'SUCCESS', result: returnData}));
     });
 }
+
+exports.logingMate = (req, res) => {
+    let query = req.query;
+    if (!(query._id || query.title)) {
+        return res.json(message('params invalid'));
+    }
+    jurisdictionService.findOne({title: query.title}, {select: '_id module'}).populate('module', '_id name uri status').exec((err, data) => {
+        if (err) {
+            return res.json(message(err));
+        }
+        res.json(message(null, {error_code: 0, message: 'SUCCESS', result: data}));
+    })
+};
