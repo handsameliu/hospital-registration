@@ -181,6 +181,7 @@ export default {
         // let _this = this
         this.selectDepartment()
         this.selectTitle()
+        this.seachSubmit()
     },
     methods: {
         addSubmit () {
@@ -198,6 +199,7 @@ export default {
                             type: 'success'
                         })
                         _this.centerDialogVisible = false
+                        _this.seachSubmit()
                     } else {
                         let message = ''
                         if (result.message === 'params invalid') {

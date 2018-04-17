@@ -3,6 +3,8 @@
 let {db} = require('../db');
 let {message, simpleDateFormat} = require('../helper');
 let registerService = db.Register;
+let userService = db.User;
+let testService = db.Test;
 
 /**
  * 新增挂号
@@ -69,7 +71,8 @@ exports.getRegisterById = (req, res) => {
 exports.getRegisterList = (req, res) => {
     console.log(req.query);
     let query = req.query,
-        queryObj = {};
+        queryObj = {},
+        today = new Date();
     console.log('query', query)
     if(query.name){
         queryObj.name = {$regex: req.query.name, $options: '$i'};
@@ -93,10 +96,14 @@ exports.getRegisterList = (req, res) => {
         queryObj.doctorId = query.doctorId;
     }
     if(!query.visitDateStart){
-        query.visitDateStart = simpleDateFormat(new Date(), 'yyyy-MM-dd')
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        today.setMilliseconds(0);
+        query.visitDateStart = simpleDateFormat(today, 'yyyy-MM-dd HH:mm:ss')
     }
     if(!query.visitDateOver){
-        query.visitDateOver = simpleDateFormat(new Date(), 'yyyy-MM-dd')
+        query.visitDateOver = simpleDateFormat(new Date(today.getTime() + 1000*60*60*24), 'yyyy-MM-dd HH:mm:ss')
     }
     queryObj.visitDate = {$gte: query.visitDateStart, $lte: query.visitDateOver}
     if(query.visitDateStage && query.visitDateStage!=='999'){
@@ -138,4 +145,57 @@ exports.getRegisterList = (req, res) => {
         //     })
         // }
     });
+}
+
+exports.getRegisterByTestAndDoctor = (req, res) => {
+    let body = req.body;
+    let testIds = []
+    if (!body.doctorId) {
+        return res.json(message('params invalid'))
+    }
+    userService.findOne({_id: body.doctorId}).populate('department', "_id name").exec((userError, userData) => {
+        if (userError) {
+            return res.json(message(userError))
+        }
+        if (userData) {
+            testService.find({departmentId: data.department._id}).exec((testError, testData) => {
+                if (testError) {
+                    return res.json(message(testError))
+                }
+                if (testData && testData.length > 0) {
+                    testData.forEach((item, index) => {
+                        testIds.push(item._id)
+                    })
+                    const queryObj = {test: {$in: testIds}}
+                    registerService.find(queryObj)
+                    .populate({path: 'departmentId', select: "_id name address desc"})
+                    .populate({path: 'userId', select: "_id username department title", populate: [{ path: 'department', select: '_id name address desc'}, { path: 'title', select: '_id name desc'}]})
+                    .populate({path: 'doctorId', select: "_id username department title", populate: [{ path: 'department', select: '_id name address desc'}, { path: 'title', select: '_id name desc'}]})
+                    .populate({path: 'test', select: ['_id', 'name', 'departmentId', 'price', 'desc'], populate: {path: 'departmentId', select: '_id name address desc'}})
+                    .populate({path: 'medicine', select: "_id name isOTC price desc"})
+                    .exec((registerError, registerData) => {
+                        if (registerError) {
+                            return res.json(message(registerError))
+                        }
+                        if (registerData && registerData.length > 0) {
+                            registerService.count(queryObj).exec((err, pageCount) => {
+                                if(err){
+                                    return res.json(message(err));
+                                }
+                                res.json(message(null,{error_code: 0,message: 'SUCCESS',result: {registerData, pageCount}}));
+                            })
+                        } else {
+                            return res.json(message(null, {error_code: 0, message: 'SUCCESS'}));
+                        }
+                    })
+                } else {
+                    return res.json(message(null, {error_code: 0, message: 'SUCCESS'}));
+                }
+            })
+        } else {
+            return res.json(message(null, {error_code: 0, message: 'SUCCESS'}));
+        }
+    })
+    
+    
 }

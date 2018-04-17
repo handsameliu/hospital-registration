@@ -167,8 +167,8 @@ export default {
         },
         editSubmit () {
             let _this = this
-            if (!(_this.editForm.name && _this.editForm.price)) {
-                return _this.$message.error('请将科室名称及挂号金额填写完整')
+            if (!(_this.editForm.name && !isNaN(_this.editForm.price))) {
+                return _this.$message.error('请将页面信息填写完整')
             }
             this.addLoading = true
             this.$http.axios({method: 'POST', url: '/api/editTitle', data: _this.editForm}).then((result) => {

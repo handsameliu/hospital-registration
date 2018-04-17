@@ -11,7 +11,7 @@ let departmentService = db.Department;
  */
 exports.addDepartment = (req, res) => {
     let body = req.body;
-    if(!body || !(body.name && body.address)){
+    if(!(body.name && body.address)){
         return res.json(message('params invalid'));
     }
     departmentService.findOne({name: body.name, address: body.address, desc: body.desc}).exec((err, data) => {

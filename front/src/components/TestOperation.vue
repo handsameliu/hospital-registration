@@ -84,45 +84,7 @@ export default {
             addForm: {
                 testResults: ''
             },
-            tableData: [
-                {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }, {
-                    createTime: '',
-                    name: '',
-                    visitDate: '',
-                    visitDateStage: '',
-                    type: ''
-                }
-            ],
+            tableData: [],
             medicineRestaurants: [],
             testRestaurants: []
         }

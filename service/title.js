@@ -11,7 +11,7 @@ let titleService = db.Title;
  */
 exports.addTitle = (req, res) => {
     let body = req.body;
-    if(!body || !(body.name && body.price)){
+    if(!(body.name && body.price)){
         return res.json(message('params invalid'));
     }
     titleService.findOne({name: body.name}).exec((err, data) => {

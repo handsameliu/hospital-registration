@@ -23,3 +23,7 @@ exports.getRegisterById = (req, res) => {
 exports.getRegisterList = (req, res) => {
     register.getRegisterList(req, res);
 }
+
+exports.getRegisterByTestAndDoctor = (req, res) => {
+    register.getRegisterByTestAndDoctor(req, res);
+}

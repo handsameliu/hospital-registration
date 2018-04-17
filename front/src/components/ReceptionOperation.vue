@@ -159,10 +159,18 @@ export default {
             let _this = this
             let url = `?pageNumber=${this.pagingObj.pageNumber}&pageSize=${this.pagingObj.pageSize}&doctorId=${this.doctorId}&`
             // url += `type=1&`
-            url += `name=${this.searchForm.name}&`
-            url += `visitDateStart=${this.searchForm.visitDateStart}&`
-            url += `visitDateOver=${this.searchForm.visitDateOver}&`
-            url += `visitDateStage=${this.searchForm.visitDateStage}&`
+            if (this.searchForm.name) {
+                url += `name=${this.searchForm.name}&`
+            }
+            if (this.searchForm.visitDateStart) {
+                url += `visitDateStart=${this.searchForm.visitDateStart}&`
+            }
+            if (this.searchForm.visitDateOver) {
+                url += `visitDateOver=${this.searchForm.visitDateOver}&`
+            }
+            if (this.searchForm.visitDateStage) {
+                url += `visitDateStage=${this.searchForm.visitDateStage}&`
+            }
             this.$http.axios({method: 'GET', url: '/api/getRegisterList' + url}).then((result) => {
                 result = result.data
                 if (result.error_code === 0 && result.message === 'SUCCESS') {
