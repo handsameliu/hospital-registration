@@ -111,6 +111,7 @@
             <span slot="footer" class="dialog-footer">
                 <el-button @click="cancel">取 消</el-button>
                 <el-button type="primary" @click="editSubmit" :loading="addLoading">保 存</el-button>
+                <el-button type="success" @click="editOver" :loading="addLoading">就诊完毕</el-button>
             </span>
         </el-dialog>
     </div>
@@ -355,8 +356,9 @@ export default {
         },
         editSubmit () {
             let _this = this
-            if (!(this.editForm.type === 1 || this.editForm.type === 2)) {
-                this.$message.error('当前状态已无法处理')
+            console.log(this.editForm.type)
+            if (['未分诊', '已分诊等待就诊', '就诊中', '挂起'].indexOf(this.editForm.type) === -1) {
+                return this.$message.error('当前状态已无法处理')
             }
             console.log(this.editForm)
             if (this.editForm.type) {
@@ -423,6 +425,38 @@ export default {
             this.editForm.testResults = []
             this.editForm.symptom = ''
             this.editForm.desc = ''
+        },
+        editOver () {
+            let _this = this
+            console.log(this.editForm.type)
+            if (['未分诊', '已分诊等待就诊', '就诊中', '挂起'].indexOf(this.editForm.type) === -1) {
+                return this.$message.error('当前状态已无法处理')
+            }
+            console.log(this.editForm)
+            this.$http.axios({method: 'POST', url: '/api/editRegister', data: {_id: this.editForm._id, type: 4}}).then((result) => {
+                result = result.data
+                if (result.error_code === 0 && result.message === 'SUCCESS') {
+                    _this.editForm._id = ''
+                    _this.editForm.name = ''
+                    _this.editForm.visitDate = ''
+                    _this.editForm.visitDateStage = ''
+                    _this.editForm.type = 1
+                    _this.editForm.medicine = []
+                    _this.editForm.test = []
+                    _this.editForm.testResults = []
+                    _this.editForm.symptom = ''
+                    _this.editForm.desc = ''
+                    _this.$message({
+                        message: '就诊完毕，请提醒患者缴费抓药',
+                        type: 'success'
+                    })
+                    _this.seachSubmit()
+                }
+            }, (error) => {
+                console.log(error)
+            }).catch((error) => {
+                console.error(error)
+            })
         }
     },
     mounted () {

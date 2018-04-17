@@ -28,6 +28,8 @@
             </el-table-column>
             <el-table-column prop="status" label="模块状态">
             </el-table-column>
+            <el-table-column prop="uri" label="模块地址">
+            </el-table-column>
             <el-table-column prop="desc" label="备注">
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="100">
@@ -40,6 +42,9 @@
             <el-form ref="form" :model="addForm" label-width="80px">
                 <el-form-item label="模块名称">
                     <el-input v-model="addForm.name" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="模块地址">
+                    <el-input v-model="addForm.uri" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="当前状态">
                     <el-select placeholder="当前状态" v-model="addForm.status">
@@ -60,6 +65,9 @@
             <el-form ref="form" :model="editForm" label-width="80px">
                 <el-form-item label="模块名称">
                     <el-input v-model="editForm.name" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="模块地址">
+                    <el-input v-model="editForm.uri" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="当前状态">
                     <el-select placeholder="当前状态" v-model="editForm.status">
@@ -96,12 +104,14 @@ export default {
             },
             addForm: {
                 name: '',
+                uri: '',
                 status: 0,
                 desc: ''
             },
             editForm: {
                 _id: '',
                 name: '',
+                uri: '',
                 status: '',
                 desc: ''
             },
@@ -116,11 +126,14 @@ export default {
             this.centerDialogVisible = false
             this.addForm.name = ''
             this.addForm.status = ''
+            this.addForm.uri = ''
             this.addForm.desc = ''
         },
         addSubmit () {
             let _this = this
-            if (!(_this.addForm.name && !isNaN(_this.addForm.status))) {
+            console.log(_this.addForm)
+            console.log(!(_this.addForm.name && _this.addForm.uri && !isNaN(_this.addForm.status)))
+            if (!(_this.addForm.name && _this.addForm.uri && !isNaN(_this.addForm.status))) {
                 return _this.$message.error('请将页面信息填写完整')
             }
             _this.addLoading = true
@@ -174,6 +187,7 @@ export default {
                             obj.name = item.name
                             obj.status = item.status === 0 ? '正常' : '屏蔽'
                             obj.desc = item.desc
+                            obj.uri = item.uri
                             obj.updateTime = item.updateTime
                             obj.createTime = item.createTime
                             return obj
@@ -199,6 +213,7 @@ export default {
             this.editForm._id = row._id
             this.editForm.name = row.name
             this.editForm.status = row.status === '正常' ? 0 : 1
+            this.editForm.uri = row.uri
             this.editForm.desc = row.desc
             this.editCenterDialogVisible = true
         },
@@ -207,11 +222,12 @@ export default {
             this.editForm._id = ''
             this.editForm.name = ''
             this.editForm.status = 0
+            this.editForm.uri = ''
             this.editForm.desc = ''
         },
         editSubmit () {
             let _this = this
-            if (!(_this.editForm.name && !isNaN(_this.editForm.status))) {
+            if (!(_this.editForm.name && !isNaN(_this.editForm.status) && _this.editForm.uri)) {
                 return _this.$message.error('请将页面信息填写完整')
             }
             this.addLoading = true

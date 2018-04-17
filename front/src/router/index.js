@@ -18,72 +18,91 @@ import tools from '../lib/tools'
 
 Vue.use(Router)
 
-const router = new Router({
-    mode: 'history',
-    routes: [
-        {   // 首页
-            path: '/',
-            name: 'Index',
-            component: Index
-        }, {
-            path: '/index',
-            name: 'Index',
-            component: Index
-        }, { // 用户管理
-            path: '/userManager',
-            name: 'UserManager',
-            component: UserManager
-        }, { // 科室管理
-            path: '/departmentManager',
-            name: 'DepartmentManager',
-            component: DepartmentManager
-        }, { // 职称管理
-            path: '/titleManager',
-            name: 'TitleManager',
-            component: TitleManager
-        }, { // 权限管理
-            path: '/jurisdictionManager',
-            name: 'JurisdictionManager',
-            component: JurisdictionManager
-        }, { // 药品管理
-            path: '/medicineManager',
-            name: 'MedicineManager',
-            component: MedicineManager
-        }, { // 体检项管理
-            path: '/testManager',
-            name: 'TestManager',
-            component: TestManager
-        }, { // 系统模块管理
-            path: '/moduleManager',
-            name: 'ModuleManager',
-            component: ModuleManager
-        }, { // 挂号
-            path: '/registerOperation',
-            name: 'RegisterOperation',
-            component: RegisterOperation
-        }, { // 退号
-            path: '/registerListOperation',
-            name: 'RegisterListOperation',
-            component: RegisterListOperation
-        }, { // 接诊
-            path: '/receptionOperation',
-            name: 'ReceptionOperation',
-            component: ReceptionOperation
-        }, { // 体检
-            path: '/testOperation',
-            name: 'TestOperation',
-            component: TestOperation
-        }, { // 收费
-            path: '/chargeOperation',
-            name: 'ChargeOperation',
-            component: ChargeOperation
-        }, { // 药房
-            path: '/pharmacyOperation',
-            name: 'PharmacyOperation',
-            component: PharmacyOperation
-        }
-    ]
+const metaObj = JSON.parse(sessionStorage.getItem('meta'))
+
+const routers = [
+    {   // 首页
+        path: '/',
+        name: 'Index',
+        component: Index
+    }, {
+        path: '/index',
+        name: 'Index',
+        component: Index
+    }, { // 用户管理
+        path: '/userManager',
+        name: 'UserManager',
+        component: UserManager
+    }, { // 科室管理
+        path: '/departmentManager',
+        name: 'DepartmentManager',
+        component: DepartmentManager
+    }, { // 职称管理
+        path: '/titleManager',
+        name: 'TitleManager',
+        component: TitleManager
+    }, { // 权限管理
+        path: '/jurisdictionManager',
+        name: 'JurisdictionManager',
+        component: JurisdictionManager
+    }, { // 药品管理
+        path: '/medicineManager',
+        name: 'MedicineManager',
+        component: MedicineManager
+    }, { // 体检项管理
+        path: '/testManager',
+        name: 'TestManager',
+        component: TestManager
+    }, { // 系统模块管理
+        path: '/moduleManager',
+        name: 'ModuleManager',
+        component: ModuleManager
+    }, { // 挂号
+        path: '/registerOperation',
+        name: 'RegisterOperation',
+        component: RegisterOperation
+    }, { // 退号
+        path: '/registerListOperation',
+        name: 'RegisterListOperation',
+        component: RegisterListOperation
+    }, { // 接诊
+        path: '/receptionOperation',
+        name: 'ReceptionOperation',
+        component: ReceptionOperation
+    }, { // 体检
+        path: '/testOperation',
+        name: 'TestOperation',
+        component: TestOperation
+    }, { // 收费
+        path: '/chargeOperation',
+        name: 'ChargeOperation',
+        component: ChargeOperation
+    }, { // 药房
+        path: '/pharmacyOperation',
+        name: 'PharmacyOperation',
+        component: PharmacyOperation
+    }
+]
+
+let uris = []
+
+metaObj.module.forEach((item, index) => {
+    let arr = item.uri.split(',')
+    uris = Array.from(new Set([...uris, ...arr]))
 })
+
+let tempArr = routers.filter((rt, key) => {
+    return uris.indexOf(rt.name) >= 0
+})
+
+const routerObj = {
+    mode: 'history',
+    routes: tempArr
+}
+
+console.log(routerObj)
+
+const router = new Router(routerObj)
 
 router.beforeEach((to, from, next) => {
     // to: Route: 即将要进入的目标 路由对象

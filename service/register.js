@@ -16,7 +16,7 @@ exports.addRegister = (req, res) => {
     if (!body || !(body.patient.userId && body.register.patientId && body.register.departmentId && body.register.doctorId && body.register.visitDate && !isNaN(body.register.type))) {
         return res.json(message('params invalid'));
     }
-    registerService.create({...body.patient,...body.register}, (error, data) => {
+    registerService.create({...body.patient, ...body.register, status: 0}, (error, data) => {
         if (error) {
             console.log(error);
             return res.json(message('addRegister error', error));
@@ -33,7 +33,9 @@ exports.addRegister = (req, res) => {
 exports.editRegister = (req, res) => {
     let body = req.body;
     //  {type: body.type, test: body.test, medicine: body.medicine, symptom: body.symptom, testResults : body.testResults, desc: body.desc}
-    registerService.findByIdAndUpdate(req.body._id, {$set: body}, {new: true}).exec((error, data) => {
+    let _id = body._id;
+    delete body._id;
+    registerService.findByIdAndUpdate(_id, {$set: body}, {new: true}).exec((error, data) => {
         if(error){
             return res.json(message(error));
         }
@@ -104,16 +106,21 @@ exports.getRegisterList = (req, res) => {
     }
     if(!query.visitDateOver){
         query.visitDateOver = simpleDateFormat(new Date(today.getTime() + 1000*60*60*24), 'yyyy-MM-dd HH:mm:ss')
+    } else {
+        query.visitDateOver = simpleDateFormat(new Date(new Date(query.visitDateOver).getTime() + 1000*60*60*24), 'yyyy-MM-dd HH:mm:ss')
     }
     queryObj.visitDate = {$gte: query.visitDateStart, $lte: query.visitDateOver}
-    if(query.visitDateStage && query.visitDateStage!=='999'){
-        queryObj.visitDateStage = query.visitDateStage;
+    if(!isNaN(query.visitDateStage) && query.visitDateStage!=='999'){
+        queryObj.visitDateStage = query.visitDateStage * 1;
     }
     if(!isNaN(query.type)){
         queryObj.type = query.type;
     }
     if(query.test){
         queryObj.test = {$in: [query.test]};    //{$elemMatch: {_id: query.test}}; 
+    }
+    if (!isNaN(query.status) && query.status !== '999') {
+        queryObj.status = query.status
     }
     console.log('queryObj', queryObj)
     registerService.find(queryObj)
@@ -149,7 +156,9 @@ exports.getRegisterList = (req, res) => {
 
 exports.getRegisterByTestAndDoctor = (req, res) => {
     let body = req.body;
-    let testIds = []
+    let testIds = [],
+        today = new Date();
+    const queryObj = {};
     if (!body.doctorId) {
         return res.json(message('params invalid'))
     }
@@ -158,15 +167,37 @@ exports.getRegisterByTestAndDoctor = (req, res) => {
             return res.json(message(userError))
         }
         if (userData) {
-            testService.find({departmentId: data.department._id}).exec((testError, testData) => {
+            testService.find({departmentId: userData.department._id}).exec((testError, testData) => {
                 if (testError) {
-                    return res.json(message(testError))
+                    return res.json(message(testError));
                 }
                 if (testData && testData.length > 0) {
                     testData.forEach((item, index) => {
-                        testIds.push(item._id)
+                        testIds.push(item._id);
                     })
-                    const queryObj = {test: {$in: testIds}}
+                    if (testIds && testIds.length > 0) {
+                        queryObj.test = {$in: testIds};
+                    }
+                    if (!body.visitDateStart) {
+                        today.setHours(0);
+                        today.setMinutes(0);
+                        today.setSeconds(0);
+                        today.setMilliseconds(0);
+                        body.visitDateStart = simpleDateFormat(today, 'yyyy-MM-dd');
+                    }
+                    if (!body.visitDateOver) {
+                        body.visitDateOver = simpleDateFormat(new Date(today.getTime() + 1000*60*60*24), 'yyyy-MM-dd')
+                    } else {
+                        body.visitDateOver = simpleDateFormat(new Date(new Date(body.visitDateOver).getTime() + 1000*60*60*24), 'yyyy-MM-dd')
+                    }
+                    queryObj.visitDate = {$gte: body.visitDateStart, $lte: body.visitDateOver}
+                    if (!isNaN(body.visitDateStage) && body.visitDateStage !== '999') {
+                        queryObj.visitDateStage = body.visitDateStage * 1
+                    }
+                    if (body.name) {
+                        queryObj.name = {$regex: body.name, $options: '$i'};
+                    }
+                    console.log(queryObj)
                     registerService.find(queryObj)
                     .populate({path: 'departmentId', select: "_id name address desc"})
                     .populate({path: 'userId', select: "_id username department title", populate: [{ path: 'department', select: '_id name address desc'}, { path: 'title', select: '_id name desc'}]})
@@ -182,7 +213,7 @@ exports.getRegisterByTestAndDoctor = (req, res) => {
                                 if(err){
                                     return res.json(message(err));
                                 }
-                                res.json(message(null,{error_code: 0,message: 'SUCCESS',result: {registerData, pageCount}}));
+                                res.json(message(null,{error_code: 0,message: 'SUCCESS',result: {data: registerData, pageCount, testData}}));
                             })
                         } else {
                             return res.json(message(null, {error_code: 0, message: 'SUCCESS'}));

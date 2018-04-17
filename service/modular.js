@@ -11,10 +11,10 @@ let moduleService = db.Modular;
  */
 exports.addModule = (req, res) => {
     let body = req.body;
-    if(!body || !(body.name || body.status)){
+    if(!(body.name && !isNaN(body.status) && body.uri)){
         return res.json(message('params invalid'));
     }
-    moduleService.findOne({name: body.name, status: body.status}).exec((err, data) => {
+    moduleService.findOne({name: body.name, status: body.status, uri: body.uri}).exec((err, data) => {
         if (err) {
             return res.json(message(err));
         }
@@ -37,7 +37,7 @@ exports.addModule = (req, res) => {
  */
 exports.editModule = (req, res) => {
     const body = req.body;
-    if (!body._id) {
+    if (!(body._id && body.uri && body.name && !isNaN(body.status))) {
         return res.json(message('params invalid'));
     }
     moduleService.findOne({name: body.name, status: body.status}).exec((err, data) => {
@@ -47,7 +47,7 @@ exports.editModule = (req, res) => {
         if (data && data._id != body._id) {
             return res.json(message('module repeat'));
         }
-        moduleService.findByIdAndUpdate(body._id,{$set:{name: body.name, status: body.status, desc: body.desc}}, {new: true}).exec((err, data) => {
+        moduleService.findByIdAndUpdate(body._id,{$set:{name: body.name, status: body.status, uri:body.uri, desc: body.desc}}, {new: true}).exec((err, data) => {
             if (err) {
                 return res.json(message(err));
             }

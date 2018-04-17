@@ -17,25 +17,32 @@
             <el-container>
                 <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
                     <el-menu router>
-                        <el-submenu index="1" class="el-menu-text-left">
-                            <template slot="title"><i class="el-icon-menu"></i><span>挂号</span></template>
+                        <template v-for="(uri, key) in uris">
+                            <el-submenu index="1" :key="key" v-if="uri==='RegisterAndListOperation'" class="el-menu-text-left" >
+                                <template slot="title"><i class="el-icon-menu"></i><span>挂号</span></template>
                             <el-menu-item index="1-1" :route="{path:'/registerOperation'}">患者挂号</el-menu-item>
                             <el-menu-item index="1-2" :route="{path:'/registerListOperation'}">患者列表</el-menu-item>
-                        </el-submenu>
-                        <el-menu-item index="2" :route="{path:'/receptionOperation'}" class="el-menu-text-left"><i class="el-icon-menu"></i><span slot="title">医师接诊</span></el-menu-item>
-                        <el-menu-item index="3" :route="{path:'/testOperation'}" class="el-menu-text-left"><i class="el-icon-menu"></i><span slot="title">体检项接诊</span></el-menu-item>
-                        <el-menu-item index="4" :route="{path:'/chargeOperation'}" class="el-menu-text-left"><i class="el-icon-menu"></i><span slot="title">划价/收费</span></el-menu-item>
-                        <el-menu-item index="5" :route="{path:'/pharmacyOperation'}" class="el-menu-text-left"><i class="el-icon-menu"></i><span slot="title">药房</span></el-menu-item>
-                        <el-submenu index="6" class="el-menu-text-left">
-                            <template slot="title"><i class="el-icon-setting"></i><span>系统设置</span></template>
-                            <el-menu-item index="6-1" :route="{path:'/userManager'}">用户管理</el-menu-item>
-                            <el-menu-item index="6-2" :route="{path:'/departmentManager'}">科室管理</el-menu-item>
-                            <el-menu-item index="6-3" :route="{path:'/titleManager'}">职称管理</el-menu-item>
-                            <el-menu-item index="6-4" :route="{path:'/jurisdictionManager'}">权限管理</el-menu-item>
-                            <el-menu-item index="6-5" :route="{path:'/medicineManager'}">药品管理</el-menu-item>
-                            <el-menu-item index="6-6" :route="{path:'/testManager'}">体检项管理</el-menu-item>
-                            <el-menu-item index="6-7" :route="{path:'/moduleManager'}">系统模块管理</el-menu-item>
-                        </el-submenu>
+                            </el-submenu>
+                            <el-menu-item index="2" :route="{path:'/receptionOperation'}" class="el-menu-text-left"
+                            :key="key" v-if="uri==='ReceptionOperation'"><i class="el-icon-menu"></i><span slot="title">医师接诊</span></el-menu-item>
+                            <el-menu-item index="3" :route="{path:'/testOperation'}" class="el-menu-text-left"
+                            :key="key" v-if="uri==='TestOperation'"><i class="el-icon-menu"></i><span slot="title">体检项接诊</span></el-menu-item>
+                            <el-menu-item index="4" :route="{path:'/chargeOperation'}" class="el-menu-text-left"
+                            :key="key" v-if="uri==='ChargeOperation'"><i class="el-icon-menu"></i><span slot="title">划价/收费</span></el-menu-item>
+                            <el-menu-item index="5" :route="{path:'/pharmacyOperation'}" class="el-menu-text-left"
+                            :key="key" v-if="uri==='PharmacyOperation'"><i class="el-icon-menu"></i><span slot="title">药房</span></el-menu-item>
+                            <el-submenu index="6" class="el-menu-text-left"
+                            :key="key" v-if="uri==='SystemCtrl'">
+                                <template slot="title"><i class="el-icon-setting"></i><span>系统设置</span></template>
+                                <el-menu-item index="6-1" :route="{path:'/userManager'}">用户管理</el-menu-item>
+                                <el-menu-item index="6-2" :route="{path:'/departmentManager'}">科室管理</el-menu-item>
+                                <el-menu-item index="6-3" :route="{path:'/titleManager'}">职称管理</el-menu-item>
+                                <el-menu-item index="6-4" :route="{path:'/jurisdictionManager'}">权限管理</el-menu-item>
+                                <el-menu-item index="6-5" :route="{path:'/medicineManager'}">药品管理</el-menu-item>
+                                <el-menu-item index="6-6" :route="{path:'/testManager'}">体检项管理</el-menu-item>
+                                <el-menu-item index="6-7" :route="{path:'/moduleManager'}">系统模块管理</el-menu-item>
+                            </el-submenu>
+                        </template>
                     </el-menu>
                 </el-aside>
                 <el-main>
@@ -52,10 +59,12 @@
         name: 'app',
         data () {
             return {
-                username: ''
+                username: '',
+                uris: []
             }
         },
         mounted () {
+            let _this = this
             if (!tools.getCookie('_id') && !tools.getCookie('username')) {
                 return tools.next('/signIn.html')
             }
@@ -64,11 +73,19 @@
                 alert('非法操作，请登陆后重试')
                 tools.next('/signIn.html')
             }
+            const metaObj = JSON.parse(sessionStorage.getItem('meta'))
+            metaObj.module.forEach((item, index) => {
+                let arr = item.uri.split(',')
+                _this.uris = Array.from(new Set([..._this.uris, ...arr]))
+            })
+            console.log(_this.uris)
         },
         methods: {
             signOut () {
                 tools.removeCookie('_id')
                 tools.removeCookie('username')
+                sessionStorage.clear()
+                localStorage.clear()
                 tools.next('/signIn.html')
             }
         }

@@ -22,3 +22,7 @@ exports.getJurisdictionById = (req, res) => {
 exports.getJurisdictionList = (req, res) => {
     jurisdiction.getJurisdictionList(req, res);
 }
+
+exports.logingMate = (req, res) => {
+    jurisdiction.logingMate(req, res);
+}

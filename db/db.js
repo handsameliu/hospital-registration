@@ -45,6 +45,7 @@ module.exports = ()=>{
 	let moduleSchema = new mongoose.Schema({
 		name:{type:String,required:true},				/*模块名称*/
 		status:{type:Number,required:true},				/*状态 0 正常，1 屏蔽*/
+		uri:{type:String,required:true},				/*页面地址 */
 		desc:{type:String,required:false},				/*备注*/
 		createTime:{type:Date,default: Date.now},		/*创建时间*/
 		updateTime:{type:Date,default: Date.now}		/*修改时间*/
@@ -95,6 +96,7 @@ module.exports = ()=>{
 		symptom:{type:String,required:false},						/*症状 */
 		testResults:{type:Array,required:false},					/*体检结果 {id:体检项id,result:体检结果}*/
 		price:{type:Number,required:true},							/*挂号价格 不同医生职称不同价格*/
+		status:{type:Number,required:true},							/*付费状态， 0 未付费，1已付费 2已取药 （这里简单写，应该还有一个配药的状态）*/
 		desc:{type:String,required:false},							/*备注*/
 		createTime:{type:Date,default: Date.now},					/*创建时间*/
 		updateTime:{type:Date,default: Date.now}					/*修改时间*/
