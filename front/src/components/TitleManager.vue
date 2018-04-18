@@ -40,7 +40,7 @@
                 <el-button type="primary" @click="addSubmit" :loading="addLoading">创 建</el-button>
             </span>
         </el-dialog>
-        <el-dialog title="新增职称" :visible.sync="editCenterDialogVisible" width="50%" center>
+        <el-dialog title="修改职称信息" :visible.sync="editCenterDialogVisible" width="50%" center>
             <el-form ref="form" :model="editForm" label-width="80px">
                 <el-form-item label="职称名称">
                     <el-input v-model="editForm.name"></el-input>
